@@ -1,11 +1,11 @@
-# Safeboda technical challenge
+# SafeBoda technical challenge
 
 
 ## Introduction
 
 This project contains a [Elixir](https://elixir-lang.org/)
 [umbrella](https://elixir-lang.org/getting-started/mix-otp/dependencies-and-umbrella-projects.html)
-that solves a [SafeBoda](https://safeboda.com/ug/) challege.
+that solves a [SafeBoda](https://safeboda.com/ug/) challenge.
 
 ## Challenge
 
@@ -33,7 +33,20 @@ This project uses [asdf](https://github.com/asdf-vm/asdf) for tool version
 managing. In order to get your system ready you must:
 
 * [Install asdf](https://github.com/asdf-vm/asdf#setup)
-* Install the neccesary plugins for this project:
+* Install the necessary plugins for this project:
   * Erlang: `asdf plugin-add erlang`
   * Elixir: `asdf plugin-add elixir`
 * Install project local versions: `asdf install`
+
+## Architecture
+
+The project contains three main applications:
+
+* `promo_code`: Business logic for promo codes.
+* `promo_code_web`: Contains the HTTP server and provides the interface and
+    endpoints to interact with the backend.
+* `promo_code_store`: Application that contains the model and persists and caches the data.
+
+The following diagram shows the flow of the architecture:
+
+<img src="./static/architecture.png" style="display: block; margin: auto" />
