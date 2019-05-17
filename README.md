@@ -47,6 +47,11 @@ The project contains three main applications:
     endpoints to interact with the backend.
 * `promo_code_store`: Application that contains the model and persists and caches the data.
 
+
+> There is a fourth application in the umbrella project called
+> `promo_code_generator`, which provides helper functions to generate data to be
+> used in property based testing.
+
 The following diagram shows the flow of the architecture:
 
 <img src="./static/architecture.png" style="display: block; margin: auto" />
