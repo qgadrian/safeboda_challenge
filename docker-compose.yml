@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:11.3
+    environment:
+      POSTGRES_DB: safeboda
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: changeme
+    ports:
+      - 5432:5432
