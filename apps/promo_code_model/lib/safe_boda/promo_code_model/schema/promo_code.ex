@@ -24,6 +24,11 @@ defmodule SafeBoda.PromoCodeModel.Schema.PromoCode do
     field(:expiration_date, :utc_datetime)
   end
 
+  @doc """
+  Casts the given params a returns a `t:Ecto.Changeset.t/1` with the validation and changes.
+
+  See `t:SafeBoda.PromoCodeModel.Schema.PromoCode.t/0` for the accepted fields.
+  """
   @spec changeset(__MODULE__.t(), map) :: Ecto.Changeset.t(__MODULE__.t())
   def changeset(promo_code, params \\ %{}) do
     promo_code
