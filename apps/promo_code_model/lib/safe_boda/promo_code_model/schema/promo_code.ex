@@ -44,7 +44,7 @@ defmodule SafeBoda.PromoCodeModel.Schema.PromoCode do
       }
   """
   @spec changeset(__MODULE__.t(), map) :: Ecto.Changeset.t(__MODULE__.t())
-  def changeset(promo_code, params \\ %{}) do
+  def changeset(promo_code, params) do
     promo_code
     |> Ecto.Changeset.cast(params, @fields)
     |> Ecto.Changeset.validate_required(@required_fields)
