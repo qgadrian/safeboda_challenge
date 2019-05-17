@@ -1,6 +1,7 @@
 defmodule SafeBoda.PromoCodeModel.Schema.PromoCodeTest do
   use ExUnit.Case, async: true
   use ExUnitProperties
+  use SafeBoda.PromoCodeModel.Suppport.RepoCase
 
   doctest SafeBoda.PromoCodeModel.Schema.PromoCode
 
