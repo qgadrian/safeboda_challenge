@@ -18,3 +18,7 @@ config :git_hooks,
       ]
     ]
   ]
+
+if Mix.env() == :test do
+  import_config "#{Mix.env()}.exs"
+end
