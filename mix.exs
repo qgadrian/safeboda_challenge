@@ -3,21 +3,15 @@ defmodule Safeboda.MixProject do
 
   def project do
     [
+      name: "Safeboda",
       apps_path: "apps",
-      elixir: "~> 1.8",
-      start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
       docs: docs(),
+      start_permanent: Mix.env() == :prod,
       preferred_cli_env: [
         release: :prod
       ]
-    ]
-  end
-
-  def application do
-    [
-      extra_applications: [:logger]
     ]
   end
 

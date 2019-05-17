@@ -1,5 +1,7 @@
 use Mix.Config
 
+import_config "../apps/*/config/config.exs"
+
 config :git_hooks,
   verbose: true,
   hooks: [
