@@ -2,6 +2,8 @@ defmodule SafeBoda.PromoCodeModel.Schema.PromoCodeTest do
   use ExUnit.Case, async: true
   use ExUnitProperties
 
+  doctest SafeBoda.PromoCodeModel.Schema.PromoCode
+
   alias SafeBoda.PromoCode.Generator.PromoCode, as: PromoCodeGenerator
   alias SafeBoda.PromoCodeModel.Schema.PromoCode
 
