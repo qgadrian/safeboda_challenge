@@ -31,17 +31,17 @@ defmodule SafeBoda.PromoCodeModel.Schema.PromoCode do
 
   ## Examples
 
-  iex> expiration_date = DateTime.from_unix!(1_464_096_368)
-  iex> params = %{description: "SafeBodaPromo", active: true, expiration_date: expiration_date}
-  iex> changeset = #{__MODULE__}.changeset(%#{__MODULE__}{}, params)
-  iex> true = changeset.valid?
-  iex> Ecto.Changeset.apply_changes(changeset)
-  %SafeBoda.PromoCodeModel.Schema.PromoCode{
-              active?: false,
-              description: "SafeBodaPromo",
-              expiration_date: DateTime.from_unix!(1_464_096_368),
-              id: nil
-            }
+      iex> expiration_date = DateTime.from_unix!(1_464_096_368)
+      iex> params = %{description: "SafeBodaPromo", active: true, expiration_date: expiration_date}
+      iex> changeset = #{__MODULE__}.changeset(%#{__MODULE__}{}, params)
+      iex> true = changeset.valid?
+      iex> Ecto.Changeset.apply_changes(changeset)
+      %SafeBoda.PromoCodeModel.Schema.PromoCode{
+                  active?: false,
+                  description: "SafeBodaPromo",
+                  expiration_date: DateTime.from_unix!(1_464_096_368),
+                  id: nil
+                }
   """
   @spec changeset(__MODULE__.t(), map) :: Ecto.Changeset.t(__MODULE__.t())
   def changeset(promo_code, params \\ %{}) do
