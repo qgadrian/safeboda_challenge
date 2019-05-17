@@ -27,6 +27,15 @@ promo codes without going for the event.
 * The promo code radius should be configurable
 * To test the validity of the promo code, expose an endpoint that accept origin, destination, the promo code. The api should return the promo code details and a polyline using the destination and origin if promo code is valid and an error otherwise.
 
+### Considerations
+
+In order to keep simplicity of the implementation, take note of the following
+considerations:
+
+* **There is no pagination** implemented for the feature `get all promo codes`
+    to keep the implementation as simple as possible. A production ready
+    application **should implement pagination**.
+
 ## Prepare your system
 
 This project uses [asdf](https://github.com/asdf-vm/asdf) for tool version

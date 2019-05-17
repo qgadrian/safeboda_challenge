@@ -11,6 +11,7 @@ defmodule SafeBoda.PromoCodeModel.MixProject do
       deps_path: "../../deps",
       elixir: "~> 1.8",
       elixirc_options: [warnings_as_errors: true],
+      elixirc_paths: elixirc_paths(Mix.env()),
       lockfile: "../../mix.lock",
       start_permanent: Mix.env() == :prod
     ]
@@ -22,6 +23,9 @@ defmodule SafeBoda.PromoCodeModel.MixProject do
       mod: {SafeBoda.PromoCodeModel.Application, []}
     ]
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 
   defp deps do
     [

@@ -28,6 +28,9 @@ defmodule SafeBoda.PromoCodeModel do
     |> Repo.insert()
   end
 
+  @doc """
+  Returns all the promo codes.
+  """
   @spec all() :: list(PromoCode.t())
   def all() do
     Repo.all(PromoCode)

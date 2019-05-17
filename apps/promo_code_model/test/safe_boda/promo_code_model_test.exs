@@ -25,4 +25,22 @@ defmodule SafeBoda.PromoCodeModelTest do
       refute Enum.empty?(changeset.errors)
     end
   end
+
+  describe "all/0" do
+    test "returns an empty list when there are no promo codes" do
+      assert PromoCodeModel.all() == []
+    end
+
+    test "returns an list with promo codes" do
+      params = %{expiration_date: DateTime.utc_now()}
+
+      PromoCodeModel.new(params)
+      PromoCodeModel.new(params)
+      PromoCodeModel.new(params)
+      PromoCodeModel.new(params)
+      PromoCodeModel.new(params)
+
+      assert length(PromoCodeModel.all()) == 5
+    end
+  end
 end

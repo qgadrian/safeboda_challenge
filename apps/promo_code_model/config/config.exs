@@ -8,3 +8,7 @@ config :promo_code_model, SafeBoda.PromoCodeModel.Repo,
   password: "changeme",
   hostname: "localhost",
   port: "5432"
+
+if Mix.env() == :test do
+  import_config "#{Mix.env()}.exs"
+end
