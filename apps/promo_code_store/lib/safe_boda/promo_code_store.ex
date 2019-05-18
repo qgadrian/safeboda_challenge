@@ -46,4 +46,28 @@ defmodule SafeBoda.PromoCodeStore do
     query = from(promo_code in PromoCode, select: promo_code, where: promo_code.active? == true)
     Repo.all(query)
   end
+
+  @doc """
+  Sets a promo code as inactive.
+
+  Once a promo code is inactive, it cannot be used anymore.
+  """
+  @spec desactive(PromoCode.t()) :: {:ok, PromoCode.t()} | {:error, term}
+  def desactive(%PromoCode{} = promo_code) do
+    promo_code
+    |> PromoCode.changeset(%{active?: false})
+    |> Repo.update()
+  end
+
+  @doc """
+  Sets a promo code as active.
+
+  Once a promo code is active, it can be candidate to be used in user rides.
+  """
+  @spec active(PromoCode.t()) :: {:ok, PromoCode.t()} | {:error, term}
+  def active(%PromoCode{} = promo_code) do
+    promo_code
+    |> PromoCode.changeset(%{active?: true})
+    |> Repo.update()
+  end
 end

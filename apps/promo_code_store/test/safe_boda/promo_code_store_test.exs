@@ -71,4 +71,32 @@ defmodule SafeBoda.PromoCodeStoreTest do
       assert length(PromoCodeStore.all_active()) == 0
     end
   end
+
+  describe "desactive/1" do
+    test "updates a promo code as not active" do
+      params =
+        PromoCodeGenerator.valid_promo_code()
+        |> Map.from_struct()
+        |> Map.put(:active?, true)
+
+      {:ok, promo_code} = PromoCodeStore.new(params)
+      assert promo_code.active?
+      {:ok, promo_code} = PromoCodeStore.desactive(promo_code)
+      refute promo_code.active?
+    end
+  end
+
+  describe "active/1" do
+    test "updates a promo code as active" do
+      params =
+        PromoCodeGenerator.valid_promo_code()
+        |> Map.from_struct()
+        |> Map.put(:active?, false)
+
+      {:ok, promo_code} = PromoCodeStore.new(params)
+      refute promo_code.active?
+      {:ok, promo_code} = PromoCodeStore.active(promo_code)
+      assert promo_code.active?
+    end
+  end
 end
