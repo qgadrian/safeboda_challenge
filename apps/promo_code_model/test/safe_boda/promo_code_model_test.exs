@@ -10,7 +10,7 @@ defmodule SafeBoda.PromoCodeModelTest do
 
   describe "Given promo code params" do
     test "when they are valid then new/1 returns a changeset with the persisted data" do
-      generator_opts = [max_number_of_rides: 10]
+      generator_opts = [max_number_of_rides: 10, minimum_event_radius: 1000]
 
       check all promo_code <- PromoCodeGenerator.generate_promo_code(generator_opts) do
         params = Map.from_struct(promo_code)
