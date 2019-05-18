@@ -44,8 +44,7 @@ defmodule SafeBoda.PromoCode.Generator.PromoCode do
   @spec valid_promo_code() :: PromoCode.t()
   def valid_promo_code() do
     %PromoCode{
-      expiration_date: DateTime.utc_now(),
-      number_of_rides: 5
+      expiration_date: DateTime.utc_now()
     }
   end
 end

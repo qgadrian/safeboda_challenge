@@ -6,16 +6,25 @@ defmodule SafeBoda.PromoCodeModel.Schema.PromoCode do
 
   The promo code provides information about discounts in the SafeBoda application:
 
-  * `description`: Description for the promo code, defaults to `nil`.
   * `active?`: If whether the promo code is active or not, defaults to `false`.
+  * `description`: Description for the promo code, defaults to `nil`.
   * `expiration_date`: UTC date time from when the code can't be used anymore.
   This is a required field.
+  * `number_of_rides`: The maximum number of times the promo code can be used, per user.
   """
   @type t :: Ecto.Schema.t()
 
-  @required_fields [:expiration_date, :number_of_rides]
+  # TODO This is a configuration parameter. It should be provided by a
+  # environment variable that will be read at runtime
+  @max_number_of_rides 10
 
-  @optional_fields [:description, :active?]
+  @required_fields [:expiration_date]
+
+  @optional_fields [
+    :active?,
+    :description,
+    :number_of_rides
+  ]
 
   @fields @required_fields ++ @optional_fields
 
@@ -23,12 +32,8 @@ defmodule SafeBoda.PromoCodeModel.Schema.PromoCode do
     field(:active?, :boolean, default: false)
     field(:description, :string, default: nil)
     field(:expiration_date, :utc_datetime)
-    field(:number_of_rides, :integer)
+    field(:number_of_rides, :integer, default: @max_number_of_rides)
   end
-
-  # TODO This is a configuration parameter. It should be provided by a
-  # environment variable that will be read at runtime
-  @max_number_of_rides 10
 
   @doc """
   Casts the given params a returns a `t:Ecto.Changeset.t/1` with the validation and changes.
@@ -38,7 +43,7 @@ defmodule SafeBoda.PromoCodeModel.Schema.PromoCode do
   ## Examples
 
       iex> expiration_date = DateTime.from_unix!(1_464_096_368)
-      iex> params = %{description: "SafeBodaPromo", number_of_rides: 5, active: true, expiration_date: expiration_date}
+      iex> params = %{description: "SafeBodaPromo", active: true, expiration_date: expiration_date}
       iex> changeset = #{__MODULE__}.changeset(%#{__MODULE__}{}, params)
       iex> true = changeset.valid?
       iex> Ecto.Changeset.apply_changes(changeset)
