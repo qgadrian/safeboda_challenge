@@ -72,6 +72,20 @@ defmodule SafeBoda.PromoCodeStoreTest do
     end
   end
 
+  describe "update_radius/2" do
+    test "updates the radius of the promo code" do
+      params =
+        PromoCodeGenerator.valid_promo_code()
+        |> Map.from_struct()
+        |> Map.put(:minimum_event_radius, 500)
+
+      {:ok, promo_code} = PromoCodeStore.new(params)
+      assert promo_code.minimum_event_radius == 500
+      {:ok, promo_code} = PromoCodeStore.update_radius(promo_code, 5000)
+      assert promo_code.minimum_event_radius == 5000
+    end
+  end
+
   describe "desactive/1" do
     test "updates a promo code as not active" do
       params =

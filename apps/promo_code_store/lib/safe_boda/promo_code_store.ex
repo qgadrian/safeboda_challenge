@@ -48,6 +48,18 @@ defmodule SafeBoda.PromoCodeStore do
   end
 
   @doc """
+  Updates the promo code radius.
+
+  The radius should be given in meters.
+  """
+  @spec update_radius(PromoCode.t(), non_neg_integer) :: {:ok, PromoCode.t()} | {:error, term}
+  def update_radius(%PromoCode{} = promo_code, new_radius) do
+    promo_code
+    |> PromoCode.changeset(%{minimum_event_radius: new_radius})
+    |> Repo.update()
+  end
+
+  @doc """
   Sets a promo code as inactive.
 
   Once a promo code is inactive, it cannot be used anymore.

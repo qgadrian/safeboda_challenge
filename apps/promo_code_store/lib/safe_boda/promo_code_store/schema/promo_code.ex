@@ -14,7 +14,7 @@ defmodule SafeBoda.PromoCodeStore.Schema.PromoCode do
   This is a required field.
   * `number_of_rides`: The maximum number of times the promo code can be used, per user.
   * `minimum_event_radius`: The minimum radius from the event point where the
-  promo code can be applicable.
+  promo code can be applicable, in meters.
   """
   @type t :: Ecto.Schema.t()
 
