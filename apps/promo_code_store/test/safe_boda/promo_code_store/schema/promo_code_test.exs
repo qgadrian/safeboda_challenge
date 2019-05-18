@@ -22,6 +22,20 @@ defmodule SafeBoda.PromoCodeStore.Schema.PromoCodeTest do
   end
 
   describe "Given a promo code attributes" do
+    test "the code can only contain numbers and letters" do
+      generator_opts = [
+        valid_code?: false,
+        max_number_of_rides: 10,
+        minimum_event_radius: 1000
+      ]
+
+      check all promo_code <- PromoCodeGenerator.generate_promo_code(generator_opts) do
+        params = Map.from_struct(promo_code)
+        changeset = PromoCode.changeset(%PromoCode{}, params)
+        refute changeset.valid?
+      end
+    end
+
     test "when there are missing parameters then changeset/2 returns errors per required field" do
       params = %{}
       changeset = PromoCode.changeset(%PromoCode{}, params)

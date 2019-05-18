@@ -7,6 +7,8 @@ defmodule SafeBoda.PromoCodeStore.Schema.PromoCode do
   The promo code provides information about discounts in the SafeBoda application:
 
   * `active?`: If whether the promo code is active or not, defaults to `false`.
+  * `code`: The code of the promo that user's will use within the clients. The
+  code can contain number and letters only.
   * `description`: Description for the promo code, defaults to `nil`.
   * `expiration_date`: UTC date time from when the code can't be used anymore.
   This is a required field.
@@ -21,10 +23,14 @@ defmodule SafeBoda.PromoCodeStore.Schema.PromoCode do
   @max_number_of_rides 10
   @minimum_event_radius 1000
 
-  @required_fields [:expiration_date]
+  @required_fields [
+    :code,
+    :expiration_date
+  ]
 
   @optional_fields [
     :active?,
+    :code,
     :description,
     :minimum_event_radius,
     :number_of_rides
@@ -34,6 +40,7 @@ defmodule SafeBoda.PromoCodeStore.Schema.PromoCode do
 
   schema "promo_codes" do
     field(:active?, :boolean, default: false)
+    field(:code, :string)
     field(:description, :string, default: nil)
     field(:expiration_date, :utc_datetime)
     field(:minimum_event_radius, :integer, default: @minimum_event_radius)
@@ -49,12 +56,13 @@ defmodule SafeBoda.PromoCodeStore.Schema.PromoCode do
   ## Examples
 
       iex> expiration_date = DateTime.from_unix!(1_464_096_368)
-      iex> params = %{description: "SafeBodaPromo", active: true, expiration_date: expiration_date}
+      iex> params = %{description: "SafeBodaPromo", code: "PROMOTEST", expiration_date: expiration_date}
       iex> changeset = #{__MODULE__}.changeset(%#{__MODULE__}{}, params)
       iex> true = changeset.valid?
       iex> Ecto.Changeset.apply_changes(changeset)
       %SafeBoda.PromoCodeStore.Schema.PromoCode{
         active?: false,
+        code: "PROMOTEST",
         description: "SafeBodaPromo",
         expiration_date: DateTime.from_unix!(1_464_096_368),
         id: nil,
@@ -66,10 +74,11 @@ defmodule SafeBoda.PromoCodeStore.Schema.PromoCode do
   def changeset(promo_code, params) do
     promo_code
     |> Ecto.Changeset.cast(params, @fields)
+    |> Ecto.Changeset.validate_required(@required_fields)
+    |> Ecto.Changeset.validate_format(:code, ~r/[A-Za-z0-9]+$/)
     |> Ecto.Changeset.validate_number(:number_of_rides,
       greater_than: 0,
       less_than_or_equal_to: @max_number_of_rides
     )
-    |> Ecto.Changeset.validate_required(@required_fields)
   end
 end

@@ -17,18 +17,22 @@ defmodule SafeBoda.PromoCode.Generator.PromoCode do
 
   * `max_number_of_rides`: The maximum number of rides for the promo code, defaults to `999999`.
   * `minimum_event_radius`: The minimum radius from the promo code, defaults to `10000`.
+  * `valid_code?`: Whether the code generated should be valid or not, defaults to `true`.
   """
   def generate_promo_code(opts \\ []) do
     max_number_of_rides = Keyword.get(opts, :max_number_of_rides, 999_999)
     minimum_event_radius = Keyword.get(opts, :minimum_event_radius, 999_999)
+    valid_code? = Keyword.get(opts, :valid_code?, true)
 
     gen all active? <- StreamData.boolean(),
+            code <- generate_code(valid_code?),
             description <- StreamData.string(:alphanumeric, min_length: 1),
             expiration_date <- DateTimeGenerator.gen_datetime(),
             minimum_event_radius <- StreamData.integer(1..minimum_event_radius),
             number_of_rides <- StreamData.integer(1..max_number_of_rides) do
       %PromoCode{
         active?: active?,
+        code: code,
         description: description,
         expiration_date: expiration_date,
         number_of_rides: number_of_rides,
@@ -48,7 +52,15 @@ defmodule SafeBoda.PromoCode.Generator.PromoCode do
   @spec valid_promo_code() :: PromoCode.t()
   def valid_promo_code() do
     %PromoCode{
-      expiration_date: DateTime.utc_now()
+      expiration_date: DateTime.utc_now(),
+      code: "PROMOCODE"
     }
+  end
+
+  @spec generate_code(boolean) :: StreamData.t(binary)
+  defp generate_code(valid?) do
+    StreamData.filter(StreamData.string(:ascii, min_length: 1), fn code ->
+      Regex.match?(~r/[A-Za-z0-9]+$/, code) == valid?
+    end)
   end
 end

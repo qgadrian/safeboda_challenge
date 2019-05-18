@@ -4,6 +4,7 @@ defmodule SafeBoda.PromoCodeStore.Repo.Migrations.CreatePromoCodes do
   def change do
     create table(:promo_codes) do
       add(:active?, :boolean)
+      add(:code, :string)
       add(:description, :string)
       add(:expiration_date, :utc_datetime)
       add(:minimum_event_radius, :integer)
