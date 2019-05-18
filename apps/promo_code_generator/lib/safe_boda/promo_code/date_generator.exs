@@ -6,10 +6,26 @@ defmodule SafeBoda.PromoCode.Generator.DateTime do
 
   @time_zones ["Etc/UTC"]
 
+  @typep date_kind :: :future | :past | :any
+
   @doc """
   Generates a date in the future.
+
+  This function accepts the following kind of dates `future`, `past` or `any`, defaults to `any`.
   """
-  def gen_date() do
+  @spec gen_date(date_kind) :: StreamData.t(Date.t())
+  def gen_date(kind \\ :any)
+
+  def gen_date(:any) do
+    gen_date(1970..2399, 1..12, 1..31)
+  end
+
+  def gen_date(:past) do
+    %{year: year} = DateTime.utc_now()
+    gen_date(1970..(year - 1), 1..12, 1..31)
+  end
+
+  def gen_date(:future) do
     %{year: year, month: month, day: day} = DateTime.utc_now()
     gen_date(year..2399, month..12, (day + 1)..31)
   end
@@ -17,8 +33,9 @@ defmodule SafeBoda.PromoCode.Generator.DateTime do
   @doc """
   Generates a date time.
   """
-  def gen_datetime do
-    gen all naive_datetime <- gen_naive_datetime(),
+  @spec gen_date(date_kind) :: StreamData.t(DateTime.t())
+  def gen_datetime(kind \\ :any) do
+    gen all naive_datetime <- gen_naive_datetime(kind),
             time_zone <- StreamData.member_of(@time_zones) do
       DateTime.from_naive!(naive_datetime, time_zone)
     end
@@ -41,8 +58,8 @@ defmodule SafeBoda.PromoCode.Generator.DateTime do
     end
   end
 
-  defp gen_naive_datetime do
-    gen all date <- gen_date(),
+  defp gen_naive_datetime(kind) do
+    gen all date <- gen_date(kind),
             time <- gen_time() do
       {:ok, naive_datetime} = NaiveDateTime.new(date, time)
       naive_datetime

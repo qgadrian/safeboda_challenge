@@ -16,6 +16,8 @@ defmodule SafeBoda.PromoCode.Generator.PromoCode do
   ## Options:
 
   * `frequency_active`: Then frequency of when the promo code is active.
+  * `frequency_expiration_future`: Then frequency of when the promo code is expired in the future.
+  * `frequency_expiration_past`: Then frequency of when the promo code is expired in the past.
   * `frequency_inactive`: Then frequency of when the promo code is inactive.
   * `max_number_of_rides`: The maximum number of rides for the promo code, defaults to `999999`.
   * `minimum_event_radius`: The minimum radius from the promo code, defaults to `10000`.
@@ -23,6 +25,8 @@ defmodule SafeBoda.PromoCode.Generator.PromoCode do
   """
   def generate_promo_code(opts \\ []) do
     frequency_active = Keyword.get(opts, :frequency_active, 1)
+    frequency_expiration_future = Keyword.get(opts, :frequency_expiration_future, 1)
+    frequency_expiration_past = Keyword.get(opts, :frequency_expiration_past, 1)
     frequency_inactive = Keyword.get(opts, :frequency_inactive, 1)
     max_number_of_rides = Keyword.get(opts, :max_number_of_rides, 999_999)
     minimum_event_radius = Keyword.get(opts, :minimum_event_radius, 999_999)
@@ -31,7 +35,8 @@ defmodule SafeBoda.PromoCode.Generator.PromoCode do
     gen all active? <- generate_active?(frequency_active, frequency_inactive),
             code <- generate_code(valid_code?),
             description <- StreamData.string(:alphanumeric, min_length: 1),
-            expiration_date <- DateTimeGenerator.gen_datetime(),
+            expiration_date <-
+              generate_expiration_date(frequency_expiration_future, frequency_expiration_past),
             minimum_event_radius <- StreamData.integer(1..minimum_event_radius),
             number_of_rides <- StreamData.integer(1..max_number_of_rides) do
       %PromoCode{
@@ -66,6 +71,14 @@ defmodule SafeBoda.PromoCode.Generator.PromoCode do
     StreamData.frequency([
       {freq_active, StreamData.member_of([true])},
       {freq_inactive, StreamData.member_of([false])}
+    ])
+  end
+
+  @spec generate_expiration_date(pos_integer, pos_integer) :: StreamData.t(binary)
+  defp generate_expiration_date(freq_future, freq_past) do
+    StreamData.frequency([
+      {freq_future, DateTimeGenerator.gen_datetime(:future)},
+      {freq_past, DateTimeGenerator.gen_datetime(:past)}
     ])
   end
 
