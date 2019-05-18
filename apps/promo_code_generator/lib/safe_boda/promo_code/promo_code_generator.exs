@@ -5,7 +5,7 @@ defmodule SafeBoda.PromoCode.Generator.PromoCode do
   use ExUnitProperties
 
   alias SafeBoda.PromoCode.Generator.DateTime, as: DateTimeGenerator
-  alias SafeBoda.PromoCodeModel.Schema.PromoCode
+  alias SafeBoda.PromoCodeStore.Schema.PromoCode
 
   @doc """
   Generates a promo code.

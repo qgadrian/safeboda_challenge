@@ -1,8 +1,8 @@
 use Mix.Config
 
-config :promo_code_model, ecto_repos: [SafeBoda.PromoCodeModel.Repo]
+config :promo_code_store, ecto_repos: [SafeBoda.PromoCodeStore.Repo]
 
-config :promo_code_model, SafeBoda.PromoCodeModel.Repo,
+config :promo_code_store, SafeBoda.PromoCodeStore.Repo,
   database: "safeboda",
   username: "admin",
   password: "changeme",

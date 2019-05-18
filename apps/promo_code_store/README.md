@@ -1,4 +1,4 @@
-# SafeBoda.PromoCodeModel
+# SafeBoda.PromoCodeStore
 
 ## Description
 

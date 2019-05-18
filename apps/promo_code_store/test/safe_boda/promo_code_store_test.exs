@@ -1,12 +1,12 @@
-defmodule SafeBoda.PromoCodeModelTest do
+defmodule SafeBoda.PromoCodeStoreTest do
   use ExUnit.Case, async: true
   use ExUnitProperties
-  use SafeBoda.PromoCodeModel.Suppport.RepoCase
+  use SafeBoda.PromoCodeStore.Suppport.RepoCase
 
-  doctest SafeBoda.PromoCodeModel
+  doctest SafeBoda.PromoCodeStore
 
   alias SafeBoda.PromoCode.Generator.PromoCode, as: PromoCodeGenerator
-  alias SafeBoda.PromoCodeModel
+  alias SafeBoda.PromoCodeStore
 
   describe "Given promo code params" do
     test "when they are valid then new/1 returns a changeset with the persisted data" do
@@ -15,7 +15,7 @@ defmodule SafeBoda.PromoCodeModelTest do
       check all promo_code <- PromoCodeGenerator.generate_promo_code(generator_opts) do
         params = Map.from_struct(promo_code)
 
-        assert {:ok, changeset} = PromoCodeModel.new(params)
+        assert {:ok, changeset} = PromoCodeStore.new(params)
 
         expected_promo_code = %{promo_code | id: changeset.id, __meta__: nil}
 
@@ -24,51 +24,51 @@ defmodule SafeBoda.PromoCodeModelTest do
     end
 
     test "when they are invalid then new/1 returns a changeset with the errors" do
-      assert {:error, changeset} = PromoCodeModel.new(%{})
+      assert {:error, changeset} = PromoCodeStore.new(%{})
       refute Enum.empty?(changeset.errors)
     end
   end
 
   describe "all/0" do
     test "returns an empty list when there are no promo codes" do
-      assert PromoCodeModel.all() == []
+      assert PromoCodeStore.all() == []
     end
 
     test "returns an list with promo codes" do
       params = Map.from_struct(PromoCodeGenerator.valid_promo_code())
 
-      assert length(PromoCodeModel.all()) == 0
+      assert length(PromoCodeStore.all()) == 0
 
-      PromoCodeModel.new(params)
-      PromoCodeModel.new(params)
-      PromoCodeModel.new(params)
-      PromoCodeModel.new(params)
-      PromoCodeModel.new(params)
+      PromoCodeStore.new(params)
+      PromoCodeStore.new(params)
+      PromoCodeStore.new(params)
+      PromoCodeStore.new(params)
+      PromoCodeStore.new(params)
 
-      assert length(PromoCodeModel.all()) == 5
+      assert length(PromoCodeStore.all()) == 5
     end
   end
 
   describe "all_active/0" do
     test "returns an empty list when there are no promo codes" do
-      assert PromoCodeModel.all_active() == []
+      assert PromoCodeStore.all_active() == []
     end
 
     test "returns an list with promo codes" do
       active_params = Map.from_struct(PromoCodeGenerator.valid_promo_code())
       inactive_params = %{active_params | active?: false}
 
-      assert length(PromoCodeModel.all_active()) == 0
+      assert length(PromoCodeStore.all_active()) == 0
 
-      PromoCodeModel.new(active_params)
-      PromoCodeModel.new(active_params)
-      PromoCodeModel.new(active_params)
+      PromoCodeStore.new(active_params)
+      PromoCodeStore.new(active_params)
+      PromoCodeStore.new(active_params)
 
-      PromoCodeModel.new(inactive_params)
-      PromoCodeModel.new(inactive_params)
+      PromoCodeStore.new(inactive_params)
+      PromoCodeStore.new(inactive_params)
 
-      assert length(PromoCodeModel.all()) == 5
-      assert length(PromoCodeModel.all_active()) == 0
+      assert length(PromoCodeStore.all()) == 5
+      assert length(PromoCodeStore.all_active()) == 0
     end
   end
 end

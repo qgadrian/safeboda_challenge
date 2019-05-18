@@ -1,4 +1,4 @@
-defmodule SafeBoda.PromoCodeModel.Schema.PromoCode do
+defmodule SafeBoda.PromoCodeStore.Schema.PromoCode do
   use Ecto.Schema
 
   @typedoc """
@@ -44,7 +44,7 @@ defmodule SafeBoda.PromoCodeModel.Schema.PromoCode do
   Casts the given params a returns a `t:Ecto.Changeset.t/1` with the validation
   and changes.
 
-  See `t:SafeBoda.PromoCodeModel.Schema.PromoCode.t/0` for the accepted fields.
+  See `t:SafeBoda.PromoCodeStore.Schema.PromoCode.t/0` for the accepted fields.
 
   ## Examples
 
@@ -53,7 +53,7 @@ defmodule SafeBoda.PromoCodeModel.Schema.PromoCode do
       iex> changeset = #{__MODULE__}.changeset(%#{__MODULE__}{}, params)
       iex> true = changeset.valid?
       iex> Ecto.Changeset.apply_changes(changeset)
-      %SafeBoda.PromoCodeModel.Schema.PromoCode{
+      %SafeBoda.PromoCodeStore.Schema.PromoCode{
         active?: false,
         description: "SafeBodaPromo",
         expiration_date: DateTime.from_unix!(1_464_096_368),

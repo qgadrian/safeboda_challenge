@@ -1,9 +1,9 @@
-defmodule SafeBoda.PromoCodeModel.MixProject do
+defmodule SafeBoda.PromoCodeStore.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :promo_code_model,
+      app: :promo_code_store,
       version: "0.1.0",
       aliases: aliases(),
       build_path: "../../_build",
@@ -21,7 +21,7 @@ defmodule SafeBoda.PromoCodeModel.MixProject do
   def application do
     [
       extra_applications: [:logger],
-      mod: {SafeBoda.PromoCodeModel.Application, []}
+      mod: {SafeBoda.PromoCodeStore.Application, []}
     ]
   end
 

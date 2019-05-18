@@ -1,4 +1,4 @@
-defmodule SafeBoda.PromoCodeModel.Repo.Migrations.CreatePromoCodes do
+defmodule SafeBoda.PromoCodeStore.Repo.Migrations.CreatePromoCodes do
   use Ecto.Migration
 
   def change do

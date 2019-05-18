@@ -1,12 +1,12 @@
-defmodule SafeBoda.PromoCodeModel.Schema.PromoCodeTest do
+defmodule SafeBoda.PromoCodeStore.Schema.PromoCodeTest do
   use ExUnit.Case, async: true
   use ExUnitProperties
-  use SafeBoda.PromoCodeModel.Suppport.RepoCase
+  use SafeBoda.PromoCodeStore.Suppport.RepoCase
 
-  doctest SafeBoda.PromoCodeModel.Schema.PromoCode
+  doctest SafeBoda.PromoCodeStore.Schema.PromoCode
 
   alias SafeBoda.PromoCode.Generator.PromoCode, as: PromoCodeGenerator
-  alias SafeBoda.PromoCodeModel.Schema.PromoCode
+  alias SafeBoda.PromoCodeStore.Schema.PromoCode
 
   property "changeset/2 returns a changeset with the parameters provided" do
     check all promo_code <- PromoCodeGenerator.generate_promo_code() do
