@@ -10,7 +10,9 @@ defmodule SafeBoda.PromoCodeModelTest do
 
   describe "Given promo code params" do
     test "when they are valid then new/1 returns a changeset with the persisted data" do
-      check all promo_code <- PromoCodeGenerator.generate_promo_code() do
+      generator_opts = [max_number_of_rides: 10]
+
+      check all promo_code <- PromoCodeGenerator.generate_promo_code(generator_opts) do
         params = Map.from_struct(promo_code)
 
         assert {:ok, changeset} = PromoCodeModel.new(params)
@@ -33,7 +35,7 @@ defmodule SafeBoda.PromoCodeModelTest do
     end
 
     test "returns an list with promo codes" do
-      params = %{expiration_date: DateTime.utc_now()}
+      params = Map.from_struct(PromoCodeGenerator.valid_promo_code())
 
       PromoCodeModel.new(params)
       PromoCodeModel.new(params)

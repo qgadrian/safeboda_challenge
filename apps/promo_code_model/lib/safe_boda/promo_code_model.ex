@@ -16,7 +16,7 @@ defmodule SafeBoda.PromoCodeModel do
   ## Examples
 
       iex> expiration_date = DateTime.from_unix!(1_464_096_368)
-      iex> params = %{description: "SafeBodaPromo", active: true, expiration_date: expiration_date}
+      iex> params = %{description: "SafeBodaPromo", active: true, number_of_rides: 5, expiration_date: expiration_date}
       iex> {result, _promo_code} = #{__MODULE__}.new(params)
       iex> result
       :ok

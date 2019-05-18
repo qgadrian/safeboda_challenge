@@ -3,9 +3,10 @@ defmodule SafeBoda.PromoCodeModel.Repo.Migrations.CreatePromoCodes do
 
   def change do
     create table(:promo_codes) do
-      add(:description, :string)
       add(:active?, :boolean)
+      add(:description, :string)
       add(:expiration_date, :utc_datetime)
+      add(:number_of_rides, :integer)
     end
   end
 end

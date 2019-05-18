@@ -29,7 +29,7 @@ defmodule SafeBoda.PromoCodeModel.Schema.PromoCodeTest do
     end
 
     test "when all parameters are valid then changeset/2 returns errors per required field" do
-      params = %{expiration_date: DateTime.utc_now()}
+      params = Map.from_struct(PromoCodeGenerator.valid_promo_code())
       changeset = PromoCode.changeset(%PromoCode{}, params)
       assert changeset.errors == []
     end
