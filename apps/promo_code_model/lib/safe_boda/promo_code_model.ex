@@ -3,6 +3,8 @@ defmodule SafeBoda.PromoCodeModel do
   This module provides functions to interact with the promo code data persisted in the database.
   """
 
+  import Ecto.Query
+
   alias SafeBoda.PromoCodeModel.Repo
   alias SafeBoda.PromoCodeModel.Schema.PromoCode
 
@@ -34,5 +36,15 @@ defmodule SafeBoda.PromoCodeModel do
   @spec all() :: list(PromoCode.t())
   def all() do
     Repo.all(PromoCode)
+  end
+
+  @doc """
+  Returns all the promo codes that are active.
+  """
+  @spec all_active() :: list(PromoCode.t())
+  def all_active() do
+    query = from(promo_code in PromoCode, select: promo_code, where: promo_code.active? == true)
+    Repo.all(query)
+    # []
   end
 end

@@ -37,6 +37,8 @@ defmodule SafeBoda.PromoCodeModelTest do
     test "returns an list with promo codes" do
       params = Map.from_struct(PromoCodeGenerator.valid_promo_code())
 
+      assert length(PromoCodeModel.all()) == 0
+
       PromoCodeModel.new(params)
       PromoCodeModel.new(params)
       PromoCodeModel.new(params)
@@ -44,6 +46,29 @@ defmodule SafeBoda.PromoCodeModelTest do
       PromoCodeModel.new(params)
 
       assert length(PromoCodeModel.all()) == 5
+    end
+  end
+
+  describe "all_active/0" do
+    test "returns an empty list when there are no promo codes" do
+      assert PromoCodeModel.all_active() == []
+    end
+
+    test "returns an list with promo codes" do
+      active_params = Map.from_struct(PromoCodeGenerator.valid_promo_code())
+      inactive_params = %{active_params | active?: false}
+
+      assert length(PromoCodeModel.all_active()) == 0
+
+      PromoCodeModel.new(active_params)
+      PromoCodeModel.new(active_params)
+      PromoCodeModel.new(active_params)
+
+      PromoCodeModel.new(inactive_params)
+      PromoCodeModel.new(inactive_params)
+
+      assert length(PromoCodeModel.all()) == 5
+      assert length(PromoCodeModel.all_active()) == 0
     end
   end
 end
