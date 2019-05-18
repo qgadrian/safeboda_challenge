@@ -5,6 +5,7 @@ defmodule SafeBoda.PromoCodeModel.MixProject do
     [
       app: :promo_code_model,
       version: "0.1.0",
+      aliases: aliases(),
       build_path: "../../_build",
       config_path: "../../config/config.exs",
       deps: deps(),
@@ -26,6 +27,12 @@ defmodule SafeBoda.PromoCodeModel.MixProject do
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
+
+  defp aliases() do
+    [
+      test: ["ecto.create --quiet", "ecto.migrate", "test"]
+    ]
+  end
 
   defp deps do
     [
