@@ -38,6 +38,7 @@ defmodule SafeBoda.PromoCodeStore.MixProject do
     [
       {:ecto_sql, "~> 3.0"},
       {:postgrex, ">= 0.0.0"},
+      {:geocalc, "~> 0.5"},
       {:promo_code_generator, in_umbrella: true}
     ]
   end
