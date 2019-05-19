@@ -37,6 +37,8 @@ defmodule SafeBoda.PromoCode.Generator.PromoCode do
     gen all active? <- generate_active?(frequency_active, frequency_inactive),
             code <- generate_code(valid_code?),
             description <- StreamData.string(:alphanumeric, min_length: 1),
+            event_latitude <- StreamData.float(min: -90, max: 90),
+            event_longitude <- StreamData.float(min: -90, max: 90),
             expiration_date <-
               generate_expiration_date(frequency_expiration_future, frequency_expiration_past),
             minimum_event_radius <- StreamData.integer(min_event_radius..max_event_radius),
@@ -45,6 +47,8 @@ defmodule SafeBoda.PromoCode.Generator.PromoCode do
         active?: active?,
         code: code,
         description: description,
+        event_latitude: event_latitude,
+        event_longitude: event_longitude,
         expiration_date: expiration_date,
         number_of_rides: number_of_rides,
         minimum_event_radius: minimum_event_radius
@@ -64,7 +68,9 @@ defmodule SafeBoda.PromoCode.Generator.PromoCode do
   def valid_promo_code() do
     %PromoCode{
       expiration_date: DateTime.utc_now(),
-      code: "PROMOCODE"
+      code: "PROMOCODE",
+      event_latitude: 23.0,
+      event_longitude: 7.0
     }
   end
 

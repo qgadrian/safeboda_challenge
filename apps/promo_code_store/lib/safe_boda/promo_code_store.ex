@@ -18,7 +18,7 @@ defmodule SafeBoda.PromoCodeStore do
   ## Examples
 
       iex> expiration_date = DateTime.from_unix!(1_464_096_368)
-      iex> params = %{code: "PROMOCODE", description: "SafeBodaPromo", active: true, number_of_rides: 5, expiration_date: expiration_date}
+      iex> params = %{code: "PROMOCODE", description: "SafeBodaPromo", event_latitude: 23.0, event_longitude: 5.0, active: true, number_of_rides: 5, expiration_date: expiration_date}
       iex> {result, _promo_code} = #{__MODULE__}.new(params)
       iex> result
       :ok

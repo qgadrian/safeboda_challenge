@@ -37,6 +37,9 @@ considerations:
 * **There is no pagination** implemented for the feature `get all promo codes`
     to keep the implementation as simple as possible. A production ready
     application **should implement pagination**.
+* There geographical calculations are made within the business logic. Depending
+    on the requirements, it might be a good option using
+    [PostGIS](https://postgis.net/) to work with geo locations.
 * The promo code event location is saved into the promotional code itself, to
     avoid having to manage events as well. Depending on the needs, it will be
     better having relations in the database to attach a promo code to an event.

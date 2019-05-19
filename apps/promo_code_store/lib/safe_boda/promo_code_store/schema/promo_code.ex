@@ -26,6 +26,8 @@ defmodule SafeBoda.PromoCodeStore.Schema.PromoCode do
 
   @required_fields [
     :code,
+    :event_latitude,
+    :event_longitude,
     :expiration_date
   ]
 
@@ -43,6 +45,8 @@ defmodule SafeBoda.PromoCodeStore.Schema.PromoCode do
     field(:active?, :boolean, default: false)
     field(:code, :string)
     field(:description, :string, default: nil)
+    field(:event_latitude, :float)
+    field(:event_longitude, :float)
     field(:expiration_date, :utc_datetime)
     field(:minimum_event_radius, :integer, default: @minimum_event_radius)
     field(:number_of_rides, :integer, default: @max_number_of_rides)
@@ -57,7 +61,7 @@ defmodule SafeBoda.PromoCodeStore.Schema.PromoCode do
   ## Examples
 
       iex> expiration_date = DateTime.from_unix!(1_464_096_368)
-      iex> params = %{description: "SafeBodaPromo", code: "PROMOTEST", expiration_date: expiration_date}
+      iex> params = %{description: "SafeBodaPromo", event_latitude: 23, event_longitude: 7, code: "PROMOTEST", expiration_date: expiration_date}
       iex> changeset = #{__MODULE__}.changeset(%#{__MODULE__}{}, params)
       iex> true = changeset.valid?
       iex> Ecto.Changeset.apply_changes(changeset)
@@ -65,6 +69,8 @@ defmodule SafeBoda.PromoCodeStore.Schema.PromoCode do
         active?: false,
         code: "PROMOTEST",
         description: "SafeBodaPromo",
+        event_latitude: 23.0,
+        event_longitude: 7.0,
         expiration_date: DateTime.from_unix!(1_464_096_368),
         id: nil,
         minimum_event_radius: #{@minimum_event_radius},

@@ -9,6 +9,8 @@ defmodule SafeBoda.PromoCodeStore.Repo.Migrations.CreatePromoCodes do
       add(:expiration_date, :utc_datetime)
       add(:minimum_event_radius, :integer)
       add(:number_of_rides, :integer)
+      add(:event_latitude, :float)
+      add(:event_longitude, :float)
     end
   end
 end
