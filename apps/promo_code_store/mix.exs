@@ -40,7 +40,7 @@ defmodule SafeBoda.PromoCodeStore.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:geocalc, "~> 0.5"},
       {:polyline, "~> 1.2"},
-      {:promo_code_generator, in_umbrella: true}
+      {:promo_code_generator, in_umbrella: true, only: :test}
     ]
   end
 end
