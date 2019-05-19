@@ -141,4 +141,52 @@ defmodule SafeBoda.PromoCodeStoreTest do
       assert "_ekkC_{or[~~s`B~h_tZ" == PromoCodeStore.polyline(pickup_point, destination_point)
     end
   end
+
+  describe "validate/1" do
+    test "returns an error if the code is not valid" do
+      code = "VALIDATETEST"
+
+      params =
+        PromoCodeGenerator.valid_promo_code()
+        |> Map.from_struct()
+        |> Map.put(:active?, false)
+        |> Map.put(:code, code)
+
+      PromoCodeStore.new(params)
+
+      pickup = %Location{latitude: 5, longitude: 7}
+      destination = %Location{latitude: 53, longitude: 71}
+
+      assert(PromoCodeStore.validate(code, pickup, destination) == {:error, :not_valid})
+    end
+
+    test "returns the promo with a polyline if it is valid" do
+      code = "VALIDATETEST"
+
+      expiration_date = DateTime.add(DateTime.utc_now(), 3600, :second)
+
+      params =
+        PromoCodeGenerator.valid_promo_code()
+        |> Map.from_struct()
+        |> Map.put(:active?, true)
+        |> Map.put(:expiration_date, expiration_date)
+        |> Map.put(:code, code)
+
+      {:ok, promo_code} = PromoCodeStore.new(params)
+
+      pickup = %Location{
+        latitude: promo_code.event_latitude,
+        longitude: promo_code.event_longitude
+      }
+
+      destination = %Location{
+        latitude: promo_code.event_latitude,
+        longitude: promo_code.event_longitude
+      }
+
+      assert {:ok, validated_promo_code} = PromoCodeStore.validate(code, pickup, destination)
+      assert validated_promo_code.polyline != nil
+      assert validated_promo_code == %{promo_code | polyline: validated_promo_code.polyline}
+    end
+  end
 end

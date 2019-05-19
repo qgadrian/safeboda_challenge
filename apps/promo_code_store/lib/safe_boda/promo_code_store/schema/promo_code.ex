@@ -50,6 +50,8 @@ defmodule SafeBoda.PromoCodeStore.Schema.PromoCode do
     field(:expiration_date, :utc_datetime)
     field(:minimum_event_radius, :integer, default: @minimum_event_radius)
     field(:number_of_rides, :integer, default: @max_number_of_rides)
+    # XXX for simplicity, a virtual field is used to provide the polyline
+    field(:polyline, :string, virtual: true)
   end
 
   @doc """

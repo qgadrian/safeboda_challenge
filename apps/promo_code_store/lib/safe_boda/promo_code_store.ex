@@ -5,9 +5,21 @@ defmodule SafeBoda.PromoCodeStore do
 
   import Ecto.Query
 
+  require Logger
+
   alias SafeBoda.PromoCodeStore.Location
   alias SafeBoda.PromoCodeStore.Repo
   alias SafeBoda.PromoCodeStore.Schema.PromoCode
+  alias SafeBoda.PromoCodeStore.Validator
+
+  @typedoc """
+  A line that has multiple points.
+
+  The
+  [polyline](https://developers.google.com/maps/documentation/javascript/examples/polyline-simple)
+  encodes in a string multiple endpoints that draw a line.
+  """
+  @type polyline :: binary
 
   @doc """
   Creates a new promo code.
@@ -105,11 +117,42 @@ defmodule SafeBoda.PromoCodeStore do
       iex> #{__MODULE__}.polyline(pickup, destination)
       "_p~iF~ps|U_ocsF~~{B"
   """
-  @spec polyline(Location.t(), Location.t()) :: String.t()
+  @spec polyline(Location.t(), Location.t()) :: {:ok, String.t()} | {:error, :not_valid}
   def polyline(%Location{} = pickup, %Location{} = destination) do
     pickup_point = {pickup.latitude, pickup.longitude}
     destination_point = {destination.latitude, destination.longitude}
 
     Polyline.encode([pickup_point, destination_point])
+  end
+
+  @doc """
+  Validates a promo code.
+
+  Receives the string code of the promotion, a pickup and a destination location.
+
+  If the promo code meets the requirements for the pickup and destination, this
+  function returns a `t:polyline/0`.  Otherwise turns an error.
+  """
+  # TODO: avoid using a map and setup the struct for the response
+  @spec validate(String.t(), Location.t(), Location.t()) ::
+          {:ok, map} | {:error, :not_valid}
+  def validate(code, %Location{} = pickup, %Location{} = destination) do
+    with {:ok, promo_code} <- get(code),
+         true <- Validator.valid?(promo_code, pickup, destination) do
+      {:ok, %{promo_code | polyline: polyline(pickup, destination)}}
+    else
+      false ->
+        Logger.debug(
+          "Promo code not valid: #{inspect(code)} - pickup: #{inspect(pickup)} - destination: #{
+            inspect(destination)
+          }"
+        )
+
+        {:error, :not_valid}
+
+      {:error, :not_found} = error ->
+        Logger.debug("Promo code not found")
+        error
+    end
   end
 end
