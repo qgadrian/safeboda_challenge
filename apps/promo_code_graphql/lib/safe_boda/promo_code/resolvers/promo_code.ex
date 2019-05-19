@@ -36,4 +36,20 @@ defmodule SafeBoda.PromoCode.Graphql.Resolvers.PromoCode do
 
     PromoCodeStore.validate(code, pickup_location, destination_location)
   end
+
+  @spec create(term, term) :: {:ok, PromoCode.t()} | {:error, term}
+  def create(args, _context) do
+    params = %{
+      active?: args[:active],
+      code: args[:code],
+      description: args[:description],
+      event_latitude: args[:event_latitude],
+      event_longitude: args[:event_longitude],
+      expiration_date: args[:expiration_date],
+      minimum_event_radius: args[:minimum_event_radius],
+      number_of_rides: args[:number_of_rides]
+    }
+
+    PromoCodeStore.new(params)
+  end
 end

@@ -13,8 +13,13 @@ defmodule SafeBoda.PromoCode.Graphql do
 
   import_types(SafeBoda.PromoCode.Graphql.Types.PromoCode)
   import_types(SafeBoda.PromoCode.Graphql.Queries.PromoCode)
+  import_types(SafeBoda.PromoCode.Graphql.Mutations.PromoCode)
 
   query do
     import_fields(:promo_code_queries)
+  end
+
+  mutation do
+    import_fields(:promo_code_mutations)
   end
 end

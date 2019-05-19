@@ -4,6 +4,7 @@ defmodule SafeBoda.PromoCode.Graphql.Resolvers.PromoCodeTest do
 
   alias SafeBoda.PromoCode.Generator.PromoCode, as: PromoCodeGenerator
   alias SafeBoda.PromoCodeStore
+  alias SafeBoda.PromoCodeStore.Schema.PromoCode
 
   @promo_code_fields """
     code
@@ -131,6 +132,54 @@ defmodule SafeBoda.PromoCode.Graphql.Resolvers.PromoCodeTest do
 
       assert {:ok, %{data: %{"validatePromoCode" => promo_code}}} = result
       assert promo_code["polyline"] != nil
+    end
+  end
+
+  describe "Given a promo code mutation" do
+    test "a promo code is returned when is created" do
+      expected_promo_code = PromoCodeGenerator.valid_promo_code()
+
+      query = """
+      mutation {
+        createPromoCode(
+          active: #{expected_promo_code.active?}
+          code: \"#{expected_promo_code.code}\"
+          description: \"#{expected_promo_code.description}\"
+          eventLatitude: #{expected_promo_code.event_latitude}
+          eventLongitude: #{expected_promo_code.event_longitude}
+          expiration_date: \"#{DateTime.to_iso8601(expected_promo_code.expiration_date)}\"
+          minimum_event_radius: #{expected_promo_code.minimum_event_radius}
+          number_of_rides: #{expected_promo_code.number_of_rides}
+        ) {
+          #{@promo_code_fields}
+        }
+      }
+      """
+
+      result = Absinthe.run(query, SafeBoda.PromoCode.Graphql)
+      assert {:ok, %{data: %{"createPromoCode" => promo_code}}} = result
+
+      promo_code_map =
+        Map.new(promo_code, fn {key, value} ->
+          key = key |> Macro.underscore() |> String.to_atom()
+
+          value =
+            case key do
+              :expiration_date ->
+                {:ok, date, _} = DateTime.from_iso8601(value)
+                date
+
+              _ ->
+                value
+            end
+
+          {key, value}
+        end)
+
+      # TODO dropping expiration_date because of milliseconds. A delta should
+      # be used to compare this dates
+      assert PromoCode |> struct(promo_code_map) |> Map.delete(:expiration_date) ==
+               Map.delete(expected_promo_code, :expiration_date)
     end
   end
 end
