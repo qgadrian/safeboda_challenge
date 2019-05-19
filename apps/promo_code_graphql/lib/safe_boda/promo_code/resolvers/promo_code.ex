@@ -52,4 +52,15 @@ defmodule SafeBoda.PromoCode.Graphql.Resolvers.PromoCode do
 
     PromoCodeStore.new(params)
   end
+
+  @spec update_active(term, term) :: {:ok, PromoCode.t()} | {:error, term}
+  def update_active(args, _context) do
+    with {:ok, promo_code} <- PromoCodeStore.get(args[:code]) do
+      if args[:active] do
+        PromoCodeStore.active(promo_code)
+      else
+        PromoCodeStore.desactive(promo_code)
+      end
+    end
+  end
 end

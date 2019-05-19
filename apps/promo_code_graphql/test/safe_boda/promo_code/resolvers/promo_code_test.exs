@@ -135,7 +135,7 @@ defmodule SafeBoda.PromoCode.Graphql.Resolvers.PromoCodeTest do
     end
   end
 
-  describe "Given a promo code mutation" do
+  describe "Given a create promo code mutation" do
     test "a promo code is returned when is created" do
       expected_promo_code = PromoCodeGenerator.valid_promo_code()
 
@@ -180,6 +180,62 @@ defmodule SafeBoda.PromoCode.Graphql.Resolvers.PromoCodeTest do
       # be used to compare this dates
       assert PromoCode |> struct(promo_code_map) |> Map.delete(:expiration_date) ==
                Map.delete(expected_promo_code, :expiration_date)
+    end
+  end
+
+  describe "Given a update active promo code mutation" do
+    test "the promo code updates to inactive" do
+      params =
+        PromoCodeGenerator.valid_promo_code()
+        |> Map.put(:active?, true)
+        |> Map.from_struct()
+
+      {:ok, promo_code} = PromoCodeStore.new(params)
+
+      query = """
+      mutation {
+        updatePromoCodeActivation(
+          active: false,
+          code: \"#{promo_code.code}\"
+        ) {
+          #{@promo_code_fields}
+        }
+      }
+      """
+
+      assert {:ok, promo_code} = PromoCodeStore.get(promo_code.code)
+      assert promo_code.active?
+
+      result = Absinthe.run(query, SafeBoda.PromoCode.Graphql)
+      assert {:ok, %{data: %{"updatePromoCodeActivation" => promo_code}}} = result
+      refute promo_code["active"]
+    end
+
+    test "the promo code updates to active" do
+      params =
+        PromoCodeGenerator.valid_promo_code()
+        |> Map.put(:active?, false)
+        |> Map.from_struct()
+
+      {:ok, promo_code} = PromoCodeStore.new(params)
+
+      query = """
+      mutation {
+        updatePromoCodeActivation(
+          active: true,
+          code: \"#{promo_code.code}\"
+        ) {
+          #{@promo_code_fields}
+        }
+      }
+      """
+
+      assert {:ok, promo_code} = PromoCodeStore.get(promo_code.code)
+      refute promo_code.active?
+
+      result = Absinthe.run(query, SafeBoda.PromoCode.Graphql)
+      assert {:ok, %{data: %{"updatePromoCodeActivation" => promo_code}}} = result
+      assert promo_code["active"]
     end
   end
 end
