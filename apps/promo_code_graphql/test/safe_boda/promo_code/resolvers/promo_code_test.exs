@@ -238,4 +238,35 @@ defmodule SafeBoda.PromoCode.Graphql.Resolvers.PromoCodeTest do
       assert promo_code["active"]
     end
   end
+
+  describe "Given a mutation for update promo code radius" do
+    test "the promo code updates it minimum radius" do
+      expected_radius = 23000
+
+      params =
+        PromoCodeGenerator.valid_promo_code()
+        |> Map.put(:active?, true)
+        |> Map.from_struct()
+
+      {:ok, promo_code} = PromoCodeStore.new(params)
+
+      query = """
+      mutation {
+        updatePromoCodeRadius(
+          radius: #{expected_radius},
+          code: \"#{promo_code.code}\"
+        ) {
+          #{@promo_code_fields}
+        }
+      }
+      """
+
+      assert {:ok, promo_code} = PromoCodeStore.get(promo_code.code)
+      assert promo_code.minimum_event_radius == params[:minimum_event_radius]
+
+      result = Absinthe.run(query, SafeBoda.PromoCode.Graphql)
+      assert {:ok, %{data: %{"updatePromoCodeRadius" => promo_code}}} = result
+      assert promo_code["minimumEventRadius"] == expected_radius
+    end
+  end
 end

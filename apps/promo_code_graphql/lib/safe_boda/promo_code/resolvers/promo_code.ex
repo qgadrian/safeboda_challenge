@@ -63,4 +63,11 @@ defmodule SafeBoda.PromoCode.Graphql.Resolvers.PromoCode do
       end
     end
   end
+
+  @spec update_radius(term, term) :: {:ok, PromoCode.t()} | {:error, term}
+  def update_radius(args, _context) do
+    with {:ok, promo_code} <- PromoCodeStore.get(args[:code]) do
+      PromoCodeStore.update_radius(promo_code, args[:radius])
+    end
+  end
 end
