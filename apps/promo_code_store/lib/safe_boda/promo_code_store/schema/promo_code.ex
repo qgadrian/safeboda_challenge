@@ -18,8 +18,9 @@ defmodule SafeBoda.PromoCodeStore.Schema.PromoCode do
   """
   @type t :: Ecto.Schema.t()
 
-  # TODO This is a configuration parameter. It should be provided by a
-  # environment variable that will be read at runtime
+  # TODO This is a configuration parameter for a default value. It should be
+  # provided by a environment variable that will be read at runtime, allowing
+  # it to be dynamic at runtime.
   @max_number_of_rides 10
   @minimum_event_radius 1000
 

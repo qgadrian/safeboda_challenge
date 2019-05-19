@@ -20,7 +20,8 @@ defmodule SafeBoda.PromoCode.Generator.PromoCode do
   * `frequency_expiration_past`: Then frequency of when the promo code is expired in the past.
   * `frequency_inactive`: Then frequency of when the promo code is inactive.
   * `max_number_of_rides`: The maximum number of rides for the promo code, defaults to `999999`.
-  * `minimum_event_radius`: The minimum radius from the promo code, defaults to `10000`.
+  * `max_event_radius`: The maximum radius from the promo code, defaults to `1000000`.
+  * `min_event_radius`: The minimum radius from the promo code, defaults to `1000`.
   * `valid_code?`: Whether the code generated should be valid or not, defaults to `true`.
   """
   def generate_promo_code(opts \\ []) do
@@ -29,7 +30,8 @@ defmodule SafeBoda.PromoCode.Generator.PromoCode do
     frequency_expiration_past = Keyword.get(opts, :frequency_expiration_past, 1)
     frequency_inactive = Keyword.get(opts, :frequency_inactive, 1)
     max_number_of_rides = Keyword.get(opts, :max_number_of_rides, 999_999)
-    minimum_event_radius = Keyword.get(opts, :minimum_event_radius, 999_999)
+    max_event_radius = Keyword.get(opts, :max_event_radius, 1000)
+    min_event_radius = Keyword.get(opts, :min_event_radius, 1_000_000)
     valid_code? = Keyword.get(opts, :valid_code?, true)
 
     gen all active? <- generate_active?(frequency_active, frequency_inactive),
@@ -37,7 +39,7 @@ defmodule SafeBoda.PromoCode.Generator.PromoCode do
             description <- StreamData.string(:alphanumeric, min_length: 1),
             expiration_date <-
               generate_expiration_date(frequency_expiration_future, frequency_expiration_past),
-            minimum_event_radius <- StreamData.integer(1..minimum_event_radius),
+            minimum_event_radius <- StreamData.integer(min_event_radius..max_event_radius),
             number_of_rides <- StreamData.integer(1..max_number_of_rides) do
       %PromoCode{
         active?: active?,
