@@ -25,7 +25,9 @@ promo codes without going for the event.
 * Return all promo codes
 * Only valid when user’s pickup or destination is within x radius of the event venue
 * The promo code radius should be configurable
-* To test the validity of the promo code, expose an endpoint that accept origin, destination, the promo code. The api should return the promo code details and a polyline using the destination and origin if promo code is valid and an error otherwise.
+* To test the validity of the promo code, expose an endpoint that accept origin, destination,
+    the promo code. The api should return the promo code details and a polyline using the
+    destination and origin if promo code is valid and an error otherwise.
 
 ### Considerations
 
@@ -35,6 +37,9 @@ considerations:
 * **There is no pagination** implemented for the feature `get all promo codes`
     to keep the implementation as simple as possible. A production ready
     application **should implement pagination**.
+* The promo code event location is saved into the promotional code itself, to
+    avoid having to manage events as well. Depending on the needs, it will be
+    better having relations in the database to attach a promo code to an event.
 
 ## Prepare your system
 
