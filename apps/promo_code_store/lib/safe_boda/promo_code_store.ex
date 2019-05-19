@@ -5,6 +5,7 @@ defmodule SafeBoda.PromoCodeStore do
 
   import Ecto.Query
 
+  alias SafeBoda.PromoCodeStore.Location
   alias SafeBoda.PromoCodeStore.Repo
   alias SafeBoda.PromoCodeStore.Schema.PromoCode
 
@@ -81,5 +82,23 @@ defmodule SafeBoda.PromoCodeStore do
     promo_code
     |> PromoCode.changeset(%{active?: true})
     |> Repo.update()
+  end
+
+  @doc """
+  Generates a polyline from two points.
+
+  ## Example
+
+      iex> pickup = %#{Location}{latitude: -120.2, longitude: 38.5}
+      iex> destination = %#{Location}{latitude: -120.84, longitude: 78.5}
+      iex> #{__MODULE__}.polyline(pickup, destination)
+      "_p~iF~ps|U_ocsF~~{B"
+  """
+  @spec polyline(Location.t(), Location.t()) :: String.t()
+  def polyline(%Location{} = pickup, %Location{} = destination) do
+    pickup_point = {pickup.latitude, pickup.longitude}
+    destination_point = {destination.latitude, destination.longitude}
+
+    Polyline.encode([pickup_point, destination_point])
   end
 end

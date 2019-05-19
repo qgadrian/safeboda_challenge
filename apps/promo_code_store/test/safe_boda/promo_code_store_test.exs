@@ -7,6 +7,7 @@ defmodule SafeBoda.PromoCodeStoreTest do
 
   alias SafeBoda.PromoCode.Generator.PromoCode, as: PromoCodeGenerator
   alias SafeBoda.PromoCodeStore
+  alias SafeBoda.PromoCodeStore.Location
 
   describe "Given promo code params" do
     test "when they are valid then new/1 returns a changeset with the persisted data" do
@@ -111,6 +112,14 @@ defmodule SafeBoda.PromoCodeStoreTest do
       refute promo_code.active?
       {:ok, promo_code} = PromoCodeStore.active(promo_code)
       assert promo_code.active?
+    end
+  end
+
+  describe "polyline/2" do
+    test "returns an encoded polyline" do
+      pickup_point = %Location{latitude: 150, longitude: 23}
+      destination_point = %Location{latitude: 5, longitude: 7}
+      assert "_ekkC_{or[~~s`B~h_tZ" == PromoCodeStore.polyline(pickup_point, destination_point)
     end
   end
 end
