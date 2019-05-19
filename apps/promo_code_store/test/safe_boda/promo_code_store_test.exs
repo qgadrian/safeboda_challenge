@@ -73,6 +73,25 @@ defmodule SafeBoda.PromoCodeStoreTest do
     end
   end
 
+  describe "get/1" do
+    test "returns an error if the code was not found" do
+      assert PromoCodeStore.get("asdasd") == {:error, :not_found}
+    end
+
+    test "returns the promo code if it is found" do
+      params =
+        PromoCodeGenerator.valid_promo_code()
+        |> Map.from_struct()
+        |> Map.put(:code, "PROMOTEST")
+
+      assert PromoCodeStore.get("PROMOTEST") == {:error, :not_found}
+
+      {:ok, promo_code} = PromoCodeStore.new(params)
+
+      assert PromoCodeStore.get("PROMOTEST") == {:ok, promo_code}
+    end
+  end
+
   describe "update_radius/2" do
     test "updates the radius of the promo code" do
       params =

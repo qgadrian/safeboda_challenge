@@ -49,6 +49,17 @@ defmodule SafeBoda.PromoCodeStore do
   end
 
   @doc """
+  Returns the promo code from the code the user's use in the clients.
+  """
+  @spec get(String.t()) :: {:ok, PromoCode.t()} | {:error, :not_found}
+  def get(code) do
+    case Repo.get_by(PromoCode, code: code) do
+      nil -> {:error, :not_found}
+      promo_code -> {:ok, promo_code}
+    end
+  end
+
+  @doc """
   Updates the promo code radius.
 
   The radius should be given in meters.
