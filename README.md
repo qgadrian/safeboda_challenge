@@ -40,6 +40,9 @@ considerations:
 * The promo code event location is saved into the promotional code itself, to
     avoid having to manage events as well. Depending on the needs, it will be
     better having relations in the database to attach a promo code to an event.
+* There are default values hardcoded, they should be provided as an environment
+    variable to make then dynamic within different environments and allowing
+    changing the configuration at runtime.
 
 ## Prepare your system
 
