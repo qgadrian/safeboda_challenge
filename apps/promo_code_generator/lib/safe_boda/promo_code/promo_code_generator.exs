@@ -24,6 +24,7 @@ defmodule SafeBoda.PromoCode.Generator.PromoCode do
   * `min_event_radius`: The minimum radius from the promo code, defaults to `1000`.
   * `valid_code?`: Whether the code generated should be valid or not, defaults to `true`.
   """
+  @spec generate_promo_code(keyword) :: StreamData.t(PromoCode.t())
   def generate_promo_code(opts \\ []) do
     frequency_active = Keyword.get(opts, :frequency_active, 1)
     frequency_expiration_future = Keyword.get(opts, :frequency_expiration_future, 1)
