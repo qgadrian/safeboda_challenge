@@ -18,7 +18,7 @@ defmodule SafeBoda.PromoCode.Generator.MixProject do
 
   def application do
     [
-      extra_applications: [:logger, :stream_data]
+      extra_applications: [:logger]
     ]
   end
 
