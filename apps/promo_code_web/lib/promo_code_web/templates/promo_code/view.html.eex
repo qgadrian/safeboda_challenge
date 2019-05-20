@@ -1,0 +1,65 @@
+<section class="row">
+  <article class="column">
+    <h3 class="title is-3">Promo code</h2>
+    <div class="field">
+      <label class="label">Code</label>
+      <div class="control">
+        <input class="input" type="text" disabled value=<%= @promo_code.code %>>
+      </div>
+    </div>
+
+
+    <div class="field">
+      <label class="label">Description</label>
+      <div class="control">
+        <input class="input" type="text" disabled value=<%= @promo_code.description %>>
+      </div>
+    </div>
+
+
+    <div class="field">
+      <label class="label">Expiration date</label>
+      <div class="control">
+        <input class="input" type="text" disabled value=<%= @promo_code.expiration_date %>>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Active?</label>
+      <div class="control">
+        <input class="input" type="text" disabled value=<%= @promo_code.active? %>>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Event radius</label>
+      <div class="control">
+        <input class="input" type="text" disabled value=<%= @promo_code.minimum_event_radius %>>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Event latitude</label>
+      <div class="control">
+        <input class="input" type="text" disabled value=<%= @promo_code.event_latitude %>>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Event longitude</label>
+      <div class="control">
+        <input class="input" type="text" disabled value=<%= @promo_code.event_longitude %>>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Number of rides</label>
+      <div class="control">
+        <input class="input" type="text" disabled value=<%= @promo_code.number_of_rides %>>
+      </div>
+    </div>
+
+    <%= link "Active", to: Routes.promo_code_path(@conn, :view, @promo_code.code), class: "button is-success" %>
+    <%= link "Desactive", to: Routes.promo_code_path(@conn, :view, @promo_code.code), class: "button is-danger" %>
+  </article>
+</section>

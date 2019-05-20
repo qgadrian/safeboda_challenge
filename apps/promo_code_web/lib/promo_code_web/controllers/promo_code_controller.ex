@@ -16,6 +16,12 @@ defmodule SafeBoda.PromoCodeWeb.PromoCodeController do
     end
   end
 
+  def view(conn, _params) do
+    with {:ok, promo_code} <- PromoCodeStore.get(conn.params["code"]) do
+      render(conn, "view.html", promo_code: promo_code)
+    end
+  end
+
   def validate(conn, _params) do
     render(conn, "validate.html")
   end
