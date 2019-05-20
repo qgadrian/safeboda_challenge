@@ -56,6 +56,7 @@ defmodule SafeBoda.PromoCodeStore do
   """
   @spec all_active() :: list(PromoCode.t())
   def all_active() do
+    ## TODO missing expired validation
     query = from(promo_code in PromoCode, select: promo_code, where: promo_code.active? == true)
     Repo.all(query)
   end

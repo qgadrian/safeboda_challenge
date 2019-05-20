@@ -1,0 +1,12 @@
+<section class="row">
+  <article class="column">
+    <h3 class="title is-3">Active promo Codes</h2>
+    <div class="list is-hoverable">
+      <%= for key <- @promo_codes do %>
+        <a class="list-item">
+          <%= key.code %>
+        </a>
+      <% end %>
+    </ul>
+  </article>
+</section>

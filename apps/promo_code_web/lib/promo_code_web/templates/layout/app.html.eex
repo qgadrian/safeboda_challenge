@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SafeBoda.PromoCodeWeb · Phoenix Framework</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css"/>
+    <!-- <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/> -->
+  </head>
+  <body>
+    <header id="header">
+      <nav class="navbar is-light" role="navigation" aria-label="main navigation">
+        <div class="container">
+          <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+              <h4 class="title is-4">SafeBoda challenge</span>
+            </a>
+          </div>
+
+          <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+              <%= link "All promos", to: Routes.promo_code_path(@conn, :all), class: "navbar-item" %>
+              <%= link "Active promos", to: Routes.promo_code_path(@conn, :all_active), class: "navbar-item" %>
+
+              <a class="navbar-item" href="validate">
+                Validate promo
+              </a>
+
+              <a class="navbar-item" href="new">
+                New promo
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main role="main" class="container">
+      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      <%= render @view_module, @view_template, assigns %>
+    </main>
+    <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>
