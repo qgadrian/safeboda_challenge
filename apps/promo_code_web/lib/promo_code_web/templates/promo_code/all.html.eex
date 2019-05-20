@@ -7,6 +7,6 @@
           <%= key.code %>
         </a>
       <% end %>
-    </ul>
+    </div>
   </article>
 </section>

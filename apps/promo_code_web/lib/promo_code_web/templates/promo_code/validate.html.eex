@@ -1,0 +1,69 @@
+<section class="row">
+  <article class="column">
+    <h3 class="title is-3">Validate promo code</h2>
+    <%= form_for @conn, Routes.promo_code_path(@conn, :validate), [as: :validation], fn f -> %>
+
+    <div class="field">
+      <label class="label">Code</label>
+      <div class="control">
+        <%= text_input f, :code, class: "input", placeholder: "Promotional code" %>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Pickup latitude</label>
+      <div class="control">
+        <%= text_input f, :pickup_latitude, class: "input", type: "number", step: "0.01" %>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Pickup longitude</label>
+      <div class="control">
+        <%= text_input f, :pickup_longitude, class: "input", type: "number", step: "0.01" %>
+      </div>
+    </div>
+
+
+    <div class="field">
+      <label class="label">Destination latitude</label>
+      <div class="control">
+        <%= text_input f, :destination_latitude, class: "input", type: "number", step: "0.01" %>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Destination longitude</label>
+      <div class="control">
+        <%= text_input f, :destination_longitude, class: "input", type: "number", step: "0.01" %>
+      </div>
+    </div>
+
+    <%= submit "Validate", class: "button" %>
+  <% end %>
+  </article>
+
+  <%= if assigns[:promo_code] != nil do %>
+    <article class="column">
+      <h3 class="title is-3">Promo code is valid!</h2>
+      <h4 class="title is-4">The polyline is:</h2>
+      <article class="message">
+        <div class="message-body">
+          <span><%= @promo_code.polyline %></span>
+        </div>
+      </article>
+    </article>
+  <% end %>
+
+  <%= if assigns[:error] == :not_valid do %>
+    <article class="column">
+      <h3 class="title is-3">Promo code is NOT valid!</h2>
+    </article>
+  <% end %>
+
+  <%= if assigns[:error] == :not_found do %>
+    <article class="column">
+      <h3 class="title is-3">Unknown promo code</h2>
+    </article>
+  <% end %>
+</section>

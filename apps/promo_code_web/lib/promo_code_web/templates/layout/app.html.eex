@@ -22,10 +22,7 @@
             <div class="navbar-start">
               <%= link "All promos", to: Routes.promo_code_path(@conn, :all), class: "navbar-item" %>
               <%= link "Active promos", to: Routes.promo_code_path(@conn, :all_active), class: "navbar-item" %>
-
-              <a class="navbar-item" href="validate">
-                Validate promo
-              </a>
+              <%= link "Validate promo", to: Routes.promo_code_path(@conn, :validate), class: "navbar-item" %>
 
               <a class="navbar-item" href="new">
                 New promo

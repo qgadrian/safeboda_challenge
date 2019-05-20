@@ -19,6 +19,9 @@ defmodule SafeBoda.PromoCodeWeb.Router do
     get("/", PageController, :index)
     get("/all", PromoCodeController, :all)
     get("/all_active", PromoCodeController, :all_active)
+    # Validations
+    get("/validate", PromoCodeController, :validate)
+    post("/validate", PromoCodeController, :do_validate)
   end
 
   scope "/" do
