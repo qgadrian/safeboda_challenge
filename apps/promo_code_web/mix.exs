@@ -36,7 +36,6 @@ defmodule SafeBoda.PromoCodeWeb.MixProject do
       {:phoenix_ecto, "~> 4.0"},
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
       {:phoenix_pubsub, "~> 1.1"},
       {:plug_cowboy, "~> 2.0"},
       {:promo_code_store, in_umbrella: true}
