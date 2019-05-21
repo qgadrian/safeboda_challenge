@@ -1,6 +1,5 @@
 # SafeBoda technical challenge
 
-
 ## Introduction
 
 This project contains a [Elixir](https://elixir-lang.org/)
@@ -29,7 +28,102 @@ promo codes without going for the event.
     the promo code. The api should return the promo code details and a polyline using the
     destination and origin if promo code is valid and an error otherwise.
 
-### Considerations
+## Tech stack
+
+This project uses [Postgres](https://www.postgresql.org/) as a database and
+[Elixir](https://elixir-lang.org/) is the language chosen to build the project
+(with the permission of [Erlang](http://www.erlang.org/)).
+
+## Prepare your system
+
+This project uses [asdf](https://github.com/asdf-vm/asdf) for tool version
+managing. In order to get your system ready you must:
+
+* [Install asdf](https://github.com/asdf-vm/asdf#setup)
+* Install the necessary plugins for this project:
+  * Erlang: `asdf plugin-add erlang`
+  * Elixir: `asdf plugin-add elixir`
+* Install project local versions: `asdf install`
+
+## Architecture
+
+The project contains three main applications:
+
+* `promo_code`: Business logic for promo codes.
+* `promo_code_web`: Contains the HTTP server and provides the interface and
+    endpoints to interact with the backend.
+* `promo_code_store`: Application that contains the model and persists the data.
+
+
+> There is a fourth application in the umbrella project called
+> `promo_code_generator`, which provides helper functions to generate data to be
+> used in property based testing.
+
+The following diagram shows the flow of the architecture:
+
+<img src="./static/architecture.png" style="display: block; margin: auto" />
+
+
+## Running the tests
+
+This application uses [property based testing](https://propertesting.com/) to
+try to increase the confidence of the code.
+
+Running the test can be done with:
+
+```
+mix test
+```
+
+## Running the application
+
+First of all, you should retrieve the dependencies and compile the code.
+
+```
+mix deps.get && mix compile
+```
+
+Since this project relays on a database, you can start a Postgres docker
+image with `docker-compose up postgres` if you don't have a local instance
+running.
+
+When Postgres is up, you have to create the database with `mix ecto.create` and
+run the migrations with `mix ecto.migrate`.
+
+After that, to run the application server just run `mix phx.server` at the root of this
+project.
+
+The website application runs on port 4000 by default.
+
+## Release
+
+### Docker
+
+There is a [Docker](https://docs.docker.com/) image provided that allows to
+build an image with the runtime tools to run this application. A
+`docker-compose` file is as well provided, that will start all the services
+dependencies in containers to run the needed integrations.
+
+To build a docker image run: `docker build --build-arg MIX_ENV=prod . -t
+sabe_boda`.
+
+To run the `docker compose` just execute `docker-compose up`.
+
+## Deployment
+
+Although this might fall far from the scope of the challenge, there are some
+example code of how a _production like_ would show.
+
+## Infrastructure as code
+
+Under `deployment/terraform/` you can find an example template on how VM can be
+created in [Google cloud](https://cloud.google.com/). This template provides
+[infrastructure as code](https://en.wikipedia.org/wiki/Infrastructure_as_code),
+keeping an history of the changes an letting the development teams owning their
+projects (as the [devops
+cycle](https://about.gitlab.com/stages-devops-lifecycle/) suggests).
+
+### Remaining work, considerations...
 
 In order to keep simplicity of the implementation, take note of the following
 considerations:
@@ -65,41 +159,18 @@ considerations:
 * Configuration should be less static, it should rely on environment variable **to
     reuse builds** in any environment, allowing a continuous delivery pipeline
     deploying same release several times.
-
-## Prepare your system
-
-This project uses [asdf](https://github.com/asdf-vm/asdf) for tool version
-managing. In order to get your system ready you must:
-
-* [Install asdf](https://github.com/asdf-vm/asdf#setup)
-* Install the necessary plugins for this project:
-  * Erlang: `asdf plugin-add erlang`
-  * Elixir: `asdf plugin-add elixir`
-* Install project local versions: `asdf install`
-
-## Architecture
-
-The project contains three main applications:
-
-* `promo_code`: Business logic for promo codes.
-* `promo_code_web`: Contains the HTTP server and provides the interface and
-    endpoints to interact with the backend.
-* `promo_code_store`: Application that contains the model and persists the data.
-
-
-> There is a fourth application in the umbrella project called
-> `promo_code_generator`, which provides helper functions to generate data to be
-> used in property based testing.
-
-The following diagram shows the flow of the architecture:
-
-<img src="./static/architecture.png" style="display: block; margin: auto" />
-
-## Infrastructure as code
-
-Under `deployment/terraform/` you can find an example template on how VM can be
-created in [Google cloud](https://cloud.google.com/). This template provides
-[infrastructure as code](https://en.wikipedia.org/wiki/Infrastructure_as_code),
-keeping an history of the changes an letting the development teams owning their
-projects (as the [devops
-cycle](https://about.gitlab.com/stages-devops-lifecycle/) suggests).
+* This application it was not conceived as a cluster application, although it
+    can be quickly modify to create a cluster of Erlang nodes that will run
+    distributed work (this will depend of the business needs).
+* There is no [Kubernetes](https://kubernetes.io/) template provided, but it
+    will trivial, once a Docker image was built, orchestrating container in a
+    Kubernetes cluster in the cloud. This has nice perks as zero time
+    deployment, canary releases, auto scaling... out of the box, without the
+    minimum complexity added to the project.
+* There is no [Continuos
+    deployment](https://medium.com/orbitdigital/the-continuous-deployment-process-417ad429f325) pipeline example neither. I wanted to play
+    around with [Github actions](https://github.com/features/actions) but
+    at the time I couldn't a spot to do it. [Gitlab
+    CI](https://about.gitlab.com/product/continuous-integration/) also has a
+    very good CD tool, very powerful.
+* There is missing [tracing](https://en.wikipedia.org/wiki/Tracing_(software)) and [monitoring](https://en.wikipedia.org/wiki/Application_performance_management), and this **would be critical to have** on a running production environment. It could combine a time series database as [InfluxDB](https://www.influxdata.com/products/influxdb-overview/), for example, with a UI as [Grafana](https://grafana.com/).
