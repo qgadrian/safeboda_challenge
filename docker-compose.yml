@@ -14,7 +14,7 @@ services:
     build:
       context: .
       args:
-        - MIX_ENV=prod
+        - MIX_ENV=dev
     environment:
       - DB_URL=postgres
     ports:
