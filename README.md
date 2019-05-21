@@ -94,3 +94,12 @@ The project contains three main applications:
 The following diagram shows the flow of the architecture:
 
 <img src="./static/architecture.png" style="display: block; margin: auto" />
+
+## Infrastructure as code
+
+Under `deployment/terraform/` you can find an example template on how VM can be
+created in [Google cloud](https://cloud.google.com/). This template provides
+[infrastructure as code](https://en.wikipedia.org/wiki/Infrastructure_as_code),
+keeping an history of the changes an letting the development teams owning their
+projects (as the [devops
+cycle](https://about.gitlab.com/stages-devops-lifecycle/) suggests).
