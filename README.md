@@ -58,6 +58,13 @@ considerations:
     choice not using server rendering, and go for client running frontend
     applications ([elm](https://elm-lang.org/blog/compilers-as-assistants) is a
     nice functional language for front).
+* It will be nice having a cache in front of the database layer, if possible.
+    Erlang provides [mnesia](http://erlang.org/doc/man/mnesia.html) in the OTP
+    that can be used for this goal. Nothing was implemented to simplify the
+    architecture.
+* Configuration should be less static, it should rely on environment variable **to
+    reuse builds** in any environment, allowing a continuous delivery pipeline
+    deploying same release several times.
 
 ## Prepare your system
 
@@ -77,7 +84,7 @@ The project contains three main applications:
 * `promo_code`: Business logic for promo codes.
 * `promo_code_web`: Contains the HTTP server and provides the interface and
     endpoints to interact with the backend.
-* `promo_code_store`: Application that contains the model and persists and caches the data.
+* `promo_code_store`: Application that contains the model and persists the data.
 
 
 > There is a fourth application in the umbrella project called
