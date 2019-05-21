@@ -44,6 +44,18 @@ defmodule SafeBoda.PromoCodeStore do
   end
 
   @doc """
+  Updates a promo code.
+
+  If the update success, this function returns a tuple with the updated
+  `t:PromoCode.t/0`. Otherwise, this function returns a tuple with an error.
+  """
+  @spec update(PromoCode.t()) :: {:ok, PromoCode.t()} | {:error, term}
+  def update(promo_code) do
+    IO.inspect(promo_code)
+    Repo.update(promo_code)
+  end
+
+  @doc """
   Returns all the promo codes.
   """
   @spec all() :: list(PromoCode.t())

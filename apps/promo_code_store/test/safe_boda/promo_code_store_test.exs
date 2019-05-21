@@ -8,6 +8,7 @@ defmodule SafeBoda.PromoCodeStoreTest do
   alias SafeBoda.PromoCode.Generator.PromoCode, as: PromoCodeGenerator
   alias SafeBoda.PromoCodeStore
   alias SafeBoda.PromoCodeStore.Location
+  alias SafeBoda.PromoCodeStore.Schema.PromoCode
 
   describe "Given promo code params" do
     test "when they are valid then new/1 returns a changeset with the persisted data" do
@@ -48,6 +49,27 @@ defmodule SafeBoda.PromoCodeStoreTest do
 
       assert {:ok, _promo_code} = PromoCodeStore.new(params)
       assert {:error, _promo_code} = PromoCodeStore.new(params)
+    end
+  end
+
+  describe "update/1" do
+    test "updates the promo code" do
+      code = "UPDATETEST"
+
+      params =
+        PromoCodeGenerator.valid_promo_code()
+        |> Map.from_struct()
+        |> Map.put(:active?, false)
+        |> Map.put(:code, code)
+
+      assert {:ok, _promo_code} = PromoCodeStore.new(params)
+      assert {:ok, promo_code} = PromoCodeStore.get(code)
+      refute promo_code.active?
+
+      update_changeset = PromoCode.changeset(promo_code, %{active?: true})
+      assert {:ok, _promo_code} = PromoCodeStore.update(update_changeset)
+      assert {:ok, promo_code} = PromoCodeStore.get(code)
+      assert promo_code.active?
     end
   end
 
