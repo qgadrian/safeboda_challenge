@@ -63,7 +63,7 @@
       </div>
     </div>
 
-    <%= submit "Create", class: "button is-success" %>
+    <%= submit "Save", class: "button is-success" %>
 
     <% end %>
   </article>

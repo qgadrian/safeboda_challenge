@@ -18,8 +18,9 @@ defmodule SafeBoda.PromoCodeWeb.PromoCodeController do
   end
 
   def view(conn, _params) do
-    with {:ok, promo_code} <- PromoCodeStore.get(conn.params["code"]) do
-      render(conn, "view.html", promo_code: promo_code)
+    with {:ok, promo_code} <- PromoCodeStore.get(conn.params["code"]),
+         promo_code <- PromoCode.changeset(promo_code) do
+      render(conn, "new.html", promo_code: promo_code)
     end
   end
 
@@ -57,9 +58,21 @@ defmodule SafeBoda.PromoCodeWeb.PromoCodeController do
   end
 
   def create(conn, _params) do
-    IO.inspect(conn.params)
-
     with {:ok, promo_code} <- PromoCodeStore.new(conn.params["promo_code"]) do
+      render(conn, "view.html", promo_code: promo_code)
+      # TODO return form with errors
+    end
+  end
+
+  def update(conn, _params) do
+    params =
+      conn.params
+      |> Map.get("promo_code")
+      |> Map.take(["code", "active?", "minimum_event_radius"])
+
+    with {:ok, promo_code} <- PromoCodeStore.get(params["code"]),
+         promo_code <- PromoCode.changeset(promo_code, params),
+         {:ok, promo_code} <- PromoCodeStore.update(promo_code) do
       render(conn, "view.html", promo_code: promo_code)
       # TODO return form with errors
     end
