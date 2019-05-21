@@ -57,7 +57,6 @@
       </div>
     </div>
 
-    <%= link "Active", to: Routes.promo_code_path(@conn, :view, @promo_code.code), class: "button is-success" %>
-    <%= link "Desactive", to: Routes.promo_code_path(@conn, :view, @promo_code.code), class: "button is-danger" %>
+    <%= link "Back to list", to: Routes.promo_code_path(@conn, :all), class: "button is-info" %>
   </article>
 </section>
