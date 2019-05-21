@@ -90,6 +90,11 @@ running.
 When Postgres is up, you have to create the database with `mix ecto.create` and
 run the migrations with `mix ecto.migrate`.
 
+> The database configuration is the only runtime configuration, in case you are
+> running a local Postgres instance you can setup credentials, for example, by
+> setting the environment variable (see `SafeBoda.PromoCodeStore.Repo` module for
+> more info).
+
 After that, to run the application server just run `mix phx.server` at the root of this
 project.
 

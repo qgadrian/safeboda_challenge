@@ -9,3 +9,13 @@ services:
       POSTGRES_PASSWORD: changeme
     ports:
       - 5432:5432
+
+  safe-boda:
+    build:
+      context: .
+      args:
+        - MIX_ENV=prod
+    environment:
+      - DB_URL=postgres
+    ports:
+      - 4000:4000
