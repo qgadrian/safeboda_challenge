@@ -3,6 +3,7 @@ defmodule SafeBoda.PromoCodeWeb.PromoCodeController do
 
   alias SafeBoda.PromoCodeStore
   alias SafeBoda.PromoCodeStore.Location
+  alias SafeBoda.PromoCodeStore.Schema.PromoCode
 
   def all(conn, _params) do
     with promo_codes <- PromoCodeStore.all() do
@@ -47,6 +48,20 @@ defmodule SafeBoda.PromoCodeWeb.PromoCodeController do
 
       {:error, :not_found} ->
         render(conn, "validate.html", error: :not_found)
+    end
+  end
+
+  def new(conn, _params) do
+    promo_code = PromoCode.changeset(%PromoCode{}, %{})
+    render(conn, "new.html", promo_code: promo_code)
+  end
+
+  def create(conn, _params) do
+    IO.inspect(conn.params)
+
+    with {:ok, promo_code} <- PromoCodeStore.new(conn.params["promo_code"]) do
+      render(conn, "view.html", promo_code: promo_code)
+      # TODO return form with errors
     end
   end
 

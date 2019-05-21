@@ -1,0 +1,70 @@
+<section class="row">
+  <article class="column">
+    <h3 class="title is-3">Promo code</h2>
+
+    <%= form_for @promo_code, Routes.promo_code_path(@conn, :create), fn promo_code -> %>
+
+    <div class="field">
+      <label class="label">Code</label>
+      <div class="control">
+        <%= text_input promo_code, :code, class: "input", type: "text" %>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Description</label>
+      <div class="control">
+        <%= text_input promo_code, :description, class: "input", type: "text" %>
+      </div>
+    </div>
+
+
+    <div class="field">
+      <label class="label">Expiration date</label>
+      <div class="control">
+        <%= text_input promo_code, :expiration_date, class: "input", type: "text", placeholder: "2023-06-23 14:34:33" %>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="control">
+        <label class="checkbox">
+          <%= checkbox promo_code, :active?, type: "checkbox" %>
+          <span>Active?</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Event radius</label>
+      <div class="control">
+        <%= text_input promo_code, :minimum_event_radius, class: "input", type: "number" %>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Event latitude</label>
+      <div class="control">
+        <%= text_input promo_code, :event_latitude, class: "input", type: "number", step: "0.01" %>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Event longitude</label>
+      <div class="control">
+        <%= text_input promo_code, :event_longitude, class: "input", type: "number", step: "0.01" %>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Number of rides</label>
+      <div class="control">
+        <%= text_input promo_code, :number_of_rides, class: "input", type: "number" %>
+      </div>
+    </div>
+
+    <%= submit "Create", class: "button is-success" %>
+
+    <% end %>
+  </article>
+</section>

@@ -20,6 +20,9 @@ defmodule SafeBoda.PromoCodeWeb.Router do
     get("/all", PromoCodeController, :all)
     get("/all_active", PromoCodeController, :all_active)
     get("/view/:code", PromoCodeController, :view)
+    # Create
+    get("/new", PromoCodeController, :new)
+    post("/new", PromoCodeController, :create)
     # Validations
     get("/validate", PromoCodeController, :validate)
     post("/validate", PromoCodeController, :do_validate)
