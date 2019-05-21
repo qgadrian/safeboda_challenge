@@ -46,6 +46,18 @@ considerations:
 * There are default values hardcoded, they should be provided as an environment
     variable to make then dynamic within different environments and allowing
     changing the configuration at runtime.
+* There are no user's management, therefore the **maximum amount of rides** will
+    not affect this application. This will be easily solved by creating a
+    relation between the users and the promo codes used, for example.
+* The front application it's keeping the simplest approach, no field validations
+    nor error messaging. Also there is used a CSS framework to keep this layer
+    of the project as simple as possible.
+* Regarding the front, there are no tests for the views. Critical parts of any
+    frontend application **should be always tested**, but because of the lack of
+    time it was not possible for this challenge. It's always an interesting
+    choice not using server rendering, and go for client running frontend
+    applications ([elm](https://elm-lang.org/blog/compilers-as-assistants) is a
+    nice functional language for front).
 
 ## Prepare your system
 
