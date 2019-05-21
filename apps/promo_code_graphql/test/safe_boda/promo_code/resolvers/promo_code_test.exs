@@ -23,11 +23,11 @@ defmodule SafeBoda.PromoCode.Graphql.Resolvers.PromoCodeTest do
 
       params = Map.from_struct(PromoCodeGenerator.valid_promo_code())
 
-      PromoCodeStore.new(params)
-      PromoCodeStore.new(params)
-      PromoCodeStore.new(params)
-      PromoCodeStore.new(params)
-      PromoCodeStore.new(params)
+      PromoCodeStore.new(%{params | code: "1"})
+      PromoCodeStore.new(%{params | code: "2"})
+      PromoCodeStore.new(%{params | code: "3"})
+      PromoCodeStore.new(%{params | code: "4"})
+      PromoCodeStore.new(%{params | code: "5"})
 
       result = Absinthe.run(query, SafeBoda.PromoCode.Graphql)
 
@@ -58,11 +58,11 @@ defmodule SafeBoda.PromoCode.Graphql.Resolvers.PromoCodeTest do
         |> Map.from_struct()
         |> Map.put(:active?, false)
 
-      PromoCodeStore.new(active_params)
-      PromoCodeStore.new(inactive_params)
-      PromoCodeStore.new(inactive_params)
-      PromoCodeStore.new(active_params)
-      PromoCodeStore.new(active_params)
+      PromoCodeStore.new(%{active_params | code: "1"})
+      PromoCodeStore.new(%{inactive_params | code: "2"})
+      PromoCodeStore.new(%{inactive_params | code: "3"})
+      PromoCodeStore.new(%{active_params | code: "4"})
+      PromoCodeStore.new(%{active_params | code: "5"})
 
       result = Absinthe.run(query, SafeBoda.PromoCode.Graphql)
 

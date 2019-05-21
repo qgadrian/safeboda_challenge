@@ -12,5 +12,7 @@ defmodule SafeBoda.PromoCodeStore.Repo.Migrations.CreatePromoCodes do
       add(:event_latitude, :float)
       add(:event_longitude, :float)
     end
+
+    create(index(:promo_codes, [:code], unique: true))
   end
 end

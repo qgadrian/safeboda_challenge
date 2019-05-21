@@ -89,5 +89,6 @@ defmodule SafeBoda.PromoCodeStore.Schema.PromoCode do
       greater_than: 0,
       less_than_or_equal_to: @max_number_of_rides
     )
+    |> Ecto.Changeset.unique_constraint(:code)
   end
 end

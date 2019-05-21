@@ -30,6 +30,27 @@ defmodule SafeBoda.PromoCodeStoreTest do
     end
   end
 
+  describe "new/1" do
+    test "creates a new promo code" do
+      params =
+        PromoCodeGenerator.valid_promo_code()
+        |> Map.from_struct()
+        |> Map.put(:code, "TESTNEW")
+
+      assert {:ok, _promo_code} = PromoCodeStore.new(params)
+    end
+
+    test "failes if the code is already taken" do
+      params =
+        PromoCodeGenerator.valid_promo_code()
+        |> Map.from_struct()
+        |> Map.put(:code, "TESTNEW")
+
+      assert {:ok, _promo_code} = PromoCodeStore.new(params)
+      assert {:error, _promo_code} = PromoCodeStore.new(params)
+    end
+  end
+
   describe "all/0" do
     test "returns an empty list when there are no promo codes" do
       assert PromoCodeStore.all() == []
@@ -40,11 +61,11 @@ defmodule SafeBoda.PromoCodeStoreTest do
 
       assert length(PromoCodeStore.all()) == 0
 
-      PromoCodeStore.new(params)
-      PromoCodeStore.new(params)
-      PromoCodeStore.new(params)
-      PromoCodeStore.new(params)
-      PromoCodeStore.new(params)
+      PromoCodeStore.new(%{params | code: "1"})
+      PromoCodeStore.new(%{params | code: "2"})
+      PromoCodeStore.new(%{params | code: "3"})
+      PromoCodeStore.new(%{params | code: "4"})
+      PromoCodeStore.new(%{params | code: "5"})
 
       assert length(PromoCodeStore.all()) == 5
     end
@@ -61,12 +82,12 @@ defmodule SafeBoda.PromoCodeStoreTest do
 
       assert length(PromoCodeStore.all_active()) == 0
 
-      PromoCodeStore.new(active_params)
-      PromoCodeStore.new(active_params)
-      PromoCodeStore.new(active_params)
+      PromoCodeStore.new(%{active_params | code: "1"})
+      PromoCodeStore.new(%{active_params | code: "2"})
+      PromoCodeStore.new(%{active_params | code: "3"})
 
-      PromoCodeStore.new(inactive_params)
-      PromoCodeStore.new(inactive_params)
+      PromoCodeStore.new(%{inactive_params | code: "4"})
+      PromoCodeStore.new(%{inactive_params | code: "5"})
 
       assert length(PromoCodeStore.all()) == 5
       assert length(PromoCodeStore.all_active()) == 0
