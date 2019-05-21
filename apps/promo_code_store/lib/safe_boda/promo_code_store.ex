@@ -38,6 +38,8 @@ defmodule SafeBoda.PromoCodeStore do
   """
   @spec new(map) :: {:ok, PromoCode.t()} | {:error, term}
   def new(params) do
+    Logger.info("New promo code: #{inspect(params)}")
+
     %PromoCode{}
     |> PromoCode.changeset(params)
     |> Repo.insert()
@@ -51,7 +53,8 @@ defmodule SafeBoda.PromoCodeStore do
   """
   @spec update(PromoCode.t()) :: {:ok, PromoCode.t()} | {:error, term}
   def update(promo_code) do
-    IO.inspect(promo_code)
+    Logger.info("Update promo code: #{inspect(promo_code)}")
+
     Repo.update(promo_code)
   end
 
