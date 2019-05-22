@@ -16,7 +16,6 @@ defmodule SafeBoda.PromoCodeWeb.Router do
   scope "/", SafeBoda.PromoCodeWeb do
     pipe_through(:browser)
 
-    get("/", PageController, :index)
     get("/all", PromoCodeController, :all)
     get("/all_active", PromoCodeController, :all_active)
     get("/view/:code", PromoCodeController, :view)
