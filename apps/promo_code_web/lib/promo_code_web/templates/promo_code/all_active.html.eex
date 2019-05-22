@@ -2,10 +2,8 @@
   <article class="column">
     <h3 class="title is-3">Active promo Codes</h2>
     <div class="list is-hoverable">
-      <%= for key <- @promo_codes do %>
-        <a class="list-item">
-          <%= key.code %>
-        </a>
+      <%= for promo_code <- @promo_codes do %>
+        <%= link promo_code.code, to: Routes.promo_code_path(@conn, :view, promo_code.code), class: "navbar-item" %>
       <% end %>
     </ul>
   </article>
