@@ -29,18 +29,23 @@ defmodule SafeBoda.PromoCodeWeb.Router do
   end
 
   scope "/" do
-    if Mix.env() == :dev do
-      forward(
-        "/graphql",
-        Absinthe.Plug.GraphiQL,
-        schema: SafeBoda.PromoCode.Graphql
-      )
-    else
-      forward(
-        "/graphql",
-        Absinthe.Plug,
-        schema: SafeBoda.PromoCode.Graphql
-      )
-    end
+    # XXX The following condition is commented to allow the GraphQL UI
+    # in production mode. This code should be uncommented for a production release
+    # if you want to hide the endpoints and documentation from the outside.
+
+    # if Mix.env() == :dev do
+    forward(
+      "/graphql",
+      Absinthe.Plug.GraphiQL,
+      schema: SafeBoda.PromoCode.Graphql
+    )
+
+    # else
+    # forward(
+    # "/graphql",
+    # Absinthe.Plug,
+    # schema: SafeBoda.PromoCode.Graphql
+    # )
+    # end
   end
 end
