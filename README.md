@@ -34,6 +34,18 @@ This project uses [Postgres](https://www.postgresql.org/) as a database and
 [Elixir](https://elixir-lang.org/) is the language chosen to build the project
 (with the permission of [Erlang](http://www.erlang.org/)).
 
+For the **backend api** I decided to go for
+[GraphQL](https://graphql.org/learn/), since it provides auto documentation,
+api versioning, deprecation, cache, etc... There is a API UI provided when
+running the application. See the [api documentation](#api-documentation) section
+for more info.
+
+There is a small **front end** written in Phoenix, that uses server side
+rendering to interact with the application. The reason of choosing the server
+templating is because I wanted to play around a bit more
+with [Phoenix live](https://github.com/phoenixframework/phoenix_live_view),
+although couldn't have time for this.
+
 ## Prepare your system
 
 This project uses [asdf](https://github.com/asdf-vm/asdf) for tool version
@@ -72,7 +84,7 @@ try to increase the confidence of the code.
 Running the test can be done with:
 
 ```
-mix test
+mix test --trace
 ```
 
 ## Running the application
@@ -98,7 +110,19 @@ run the migrations with `mix ecto.migrate`.
 After that, to run the application server just run `mix phx.server` at the root of this
 project.
 
-The website application runs on port 4000 by default.
+The **quickest way to run this application** is running the docker-compose file
+provided. Just run `docker-compose up` and the application will start running in
+a container.
+
+The website application runs on [port 4000](http://localhost:4000) by default.
+
+### API documentation
+
+Since this project uses GraphQL, it provides an interface to check which
+endpoints can be called, what are the responses, fields, etc...
+
+Once running the application, it will be accessible from
+[localhost](http://localhost:4000/graphql).
 
 ## Release
 
@@ -173,9 +197,13 @@ considerations:
     deployment, canary releases, auto scaling... out of the box, without the
     minimum complexity added to the project.
 * There is no [Continuos
-    deployment](https://medium.com/orbitdigital/the-continuous-deployment-process-417ad429f325) pipeline example neither. I wanted to play
-    around with [Github actions](https://github.com/features/actions) but
-    at the time I couldn't a spot to do it. [Gitlab
-    CI](https://about.gitlab.com/product/continuous-integration/) also has a
-    very good CD tool, very powerful.
-* There is missing [tracing](https://en.wikipedia.org/wiki/Tracing_(software)) and [monitoring](https://en.wikipedia.org/wiki/Application_performance_management), and this **would be critical to have** on a running production environment. It could combine a time series database as [InfluxDB](https://www.influxdata.com/products/influxdb-overview/), for example, with a UI as [Grafana](https://grafana.com/).
+    deployment](https://medium.com/orbitdigital/the-continuous-deployment-process-417ad429f325)
+    pipeline example neither. I wanted to play around with
+    [Github actions](https://github.com/features/actions) but at the time I couldn't a
+    spot to do it. [Gitlab CI](https://about.gitlab.com/product/continuous-integration/) also
+    has a very good CD tool, very powerful.
+* There is missing [tracing](https://en.wikipedia.org/wiki/Tracing_(software)) and
+    [monitoring](https://en.wikipedia.org/wiki/Application_performance_management), and this
+    **would be critical to have** on a running production environment. It could combine a time
+    series database as [InfluxDB](https://www.influxdata.com/products/influxdb-overview/),
+    for example, with a UI as [Grafana](https://grafana.com/).
