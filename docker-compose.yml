@@ -4,9 +4,9 @@ services:
   postgres:
     image: postgres:11.3
     environment:
-      POSTGRES_DB: safeboda
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: changeme
+      - POSTGRES_DB=safeboda
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=changeme
     ports:
       - 5432:5432
 
@@ -14,7 +14,7 @@ services:
     build:
       context: .
       args:
-        - MIX_ENV=dev
+        - MIX_ENV=prod
     environment:
       - DB_URL=postgres
     ports:

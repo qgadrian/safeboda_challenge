@@ -18,7 +18,7 @@ COPY mix.exs mix.lock ./
 RUN mix deps.get
 RUN mix deps.compile
 
-RUN rm -rf rel/safe_boda
+RUN rm -rf /app/_build/${MIX_ENV}/rel/safeboda
 
 COPY ./ ./
 
