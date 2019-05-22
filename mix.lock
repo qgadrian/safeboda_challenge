@@ -19,7 +19,7 @@
   "file_system": {:hex, :file_system, "0.2.7", "e6f7f155970975789f26e77b8b8d8ab084c59844d8ecfaf58cbda31c494d14aa", [:mix], [], "hexpm"},
   "geocalc": {:hex, :geocalc, "0.7.2", "71ced3516f50bdf8e0a3fce6d3169972a9127070d2117d7080bf17e3ae3450d8", [:mix], [], "hexpm"},
   "gettext": {:hex, :gettext, "0.16.1", "e2130b25eebcbe02bb343b119a07ae2c7e28bd4b146c4a154da2ffb2b3507af2", [:mix], [], "hexpm"},
-  "git_hooks": {:hex, :git_hooks, "0.3.0", "3b9cf3482ce4089dc6e0b65b808565334a5e5783e7535cef75c4b785014a92ca", [:mix], [{:blankable, "~> 0.0.1", [hex: :blankable, repo: "hexpm", optional: false]}, {:recase, "~> 0.2", [hex: :recase, repo: "hexpm", optional: false]}], "hexpm"},
+  "git_hooks": {:hex, :git_hooks, "0.3.1", "df6537d9e4f8fa65d6d2c308ae211883a3665aa476f7dabfa8d31052449e75ac", [:mix], [{:blankable, "~> 0.0.1", [hex: :blankable, repo: "hexpm", optional: false]}, {:recase, "~> 0.2", [hex: :recase, repo: "hexpm", optional: false]}], "hexpm"},
   "jason": {:hex, :jason, "1.1.2", "b03dedea67a99223a2eaf9f1264ce37154564de899fd3d8b9a21b1a6fd64afe7", [:mix], [{:decimal, "~> 1.0", [hex: :decimal, repo: "hexpm", optional: true]}], "hexpm"},
   "makeup": {:hex, :makeup, "0.8.0", "9cf32aea71c7fe0a4b2e9246c2c4978f9070257e5c9ce6d4a28ec450a839b55f", [:mix], [{:nimble_parsec, "~> 0.5.0", [hex: :nimble_parsec, repo: "hexpm", optional: false]}], "hexpm"},
   "makeup_elixir": {:hex, :makeup_elixir, "0.13.0", "be7a477997dcac2e48a9d695ec730b2d22418292675c75aa2d34ba0909dcdeda", [:mix], [{:makeup, "~> 0.8", [hex: :makeup, repo: "hexpm", optional: false]}], "hexpm"},

@@ -26,7 +26,7 @@ defmodule Safeboda.MixProject do
     [
       {:distillery, "~> 2.0"},
       {:dialyxir, "~> 1.0.0-rc.6", only: [:dev], runtime: false},
-      {:git_hooks, "~> 0.3.0", only: [:dev, :test], runtime: false},
+      {:git_hooks, "~> 0.3.1", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.19", only: :dev, runtime: false}
     ]
   end
